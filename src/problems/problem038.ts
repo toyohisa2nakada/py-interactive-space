@@ -1,0 +1,14 @@
+import type { Problem } from './types';
+
+const problem: Problem = {
+  id: 38,
+  title: "f文字列の出力",
+  type: 'predict-output',
+  code: `name = "Alice"
+age = 20
+print(f"{name}は{age}歳です")
+`,
+  correctOutput: "Aliceは20歳です",
+};
+
+export default problem;
