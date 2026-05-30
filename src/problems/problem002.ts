@@ -2,13 +2,12 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 2,
-  title: "このプログラムの出力は？",
+  title: "出力は？",
   type: 'predict-output',
-  code: `a = 10
-b = 3
-print(a % b)
+  code: `
+print("a")
 `,
-  correctOutput: "1",
+  correctOutput: "a",
 };
 
 export default problem;
