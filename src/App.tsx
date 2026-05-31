@@ -1,7 +1,10 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
-import { EditorView, Decoration, type DecorationSet } from '@codemirror/view';
+import { EditorView, Decoration, type DecorationSet, hoverTooltip } from '@codemirror/view';
 import { EditorState, StateField } from '@codemirror/state';
 import type { Problem } from './problems';
+// ↓ この1行を変えると完了演出が切り替わります
+import { CompletionScreen } from './CompletionScreenC';
+import { problemSet00 } from './problems/index00';
 import { problemSet01 } from './problems/index01';
 import { problemSet02 } from './problems/index02';
 import { problemSet03 } from './problems/index03';
@@ -12,11 +15,13 @@ import type { PyodideInterface } from 'pyodide';
 
 // ─── 問題セット定義 ────────────────────────────────────────────
 const ALL_SETS = [
+  problemSet00,
   problemSet01, problemSet02, problemSet03,
   problemSet04, problemSet05, problemSet06,
 ];
-const SET_LABELS       = ['セット1','セット2','セット3','セット4','セット5','セット6'];
+const SET_LABELS       = ['セット0','セット1','セット2','セット3','セット4','セット5','セット6'];
 const SET_DESCRIPTIONS = [
+  'テストセット',
   '超入門：変数・演算',
   '入門：if・forループ',
   '初中級：ループ・リスト',
@@ -96,8 +101,62 @@ function getHoleContent(view: EditorView, problem: Problem): string {
   return doc.slice(holeFrom, doc.length - suffix.length);
 }
 
+/** 必須トークンのうち answer に含まれないものを返す */
+function missingTokens(answer: string, required: string[] | undefined): string[] {
+  if (!required || required.length === 0) return [];
+  return required.filter(t => !answer.includes(t));
+}
+
+// ─── Python ホバー辞書 ────────────────────────────────────────
+import { PY_DICT } from './pyDict';
+
+function buildPyTooltip(view: EditorView, pos: number) {
+  const line    = view.state.doc.lineAt(pos);
+  const text    = line.text;
+  const linePos = pos - line.from;
+
+  // ① アルファベット・数字・アンダースコアからなる単語を探す
+  let start = linePos;
+  let end   = linePos;
+  while (start > 0 && /[a-zA-Z0-9_]/.test(text[start - 1])) start--;
+  while (end < text.length && /[a-zA-Z0-9_]/.test(text[end])) end++;
+
+  // ② 単語が見つからなければ演算子を探す（2文字を優先）
+  if (start === end) {
+    const c    = text[linePos]    ?? '';
+    const prev = text[linePos - 1] ?? '';
+    const next = text[linePos + 1] ?? '';
+    const op2r = c + next;       // カーソルが1文字目
+    const op2l = prev + c;       // カーソルが2文字目
+    if      (PY_DICT[op2r]) { start = linePos;     end = linePos + 2; }
+    else if (PY_DICT[op2l]) { start = linePos - 1; end = linePos + 1; }
+    else if (PY_DICT[c])    { start = linePos;     end = linePos + 1; }
+  }
+
+  if (start === end) return null;
+
+  const word = text.slice(start, end);
+  const desc = PY_DICT[word];
+  if (!desc) return null;
+
+  // HTML エスケープ（< > などが壊れないように）
+  const safeWord = word.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+  return {
+    pos: line.from + start,
+    end: line.from + end,
+    above: true,
+    create() {
+      const dom = document.createElement('div');
+      dom.className = 'py-tooltip';
+      dom.innerHTML = `<span class="py-tooltip-kw">${safeWord}</span>${desc}`;
+      return { dom };
+    },
+  };
+}
+
 // ─── CodeMirror エディタ構築 ───────────────────────────────────
-function buildEditorState(problem: Problem, savedAnswer?: string): EditorState {
+function buildEditorState(problem: Problem, savedAnswer?: string, hintsEnabled = false): EditorState {
   const baseExtensions = [
     EditorView.theme({
       '&':              { fontSize: '15px' },
@@ -106,6 +165,7 @@ function buildEditorState(problem: Problem, savedAnswer?: string): EditorState {
       '.readonly-bg':   { backgroundColor: '#f1f5f9', color: '#64748b' },
       '.editable-hole': { backgroundColor: '#fefce8', color: '#1e293b', borderBottom: '2px solid #fbbf24' },
     }),
+    ...(hintsEnabled ? [hoverTooltip(buildPyTooltip, { hideOnChange: true })] : []),
   ];
 
   // predict-output: 読み取り専用
@@ -212,7 +272,9 @@ export default function App() {
   const [scoreBump,     setScoreBump]     = useState(false);
   const [plusOneKey,    setPlusOneKey]    = useState(0);
   const [showPlusOne,   setShowPlusOne]   = useState(false);
-  const [settingsOpen,  setSettingsOpen]  = useState(false);
+  const [settingsOpen,   setSettingsOpen]  = useState(false);
+  const [hintsEnabled,   setHintsEnabled]  = useState(false);
+  const [showCompletion, setShowCompletion] = useState(false);
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const viewRef      = useRef<EditorView | null>(null);
@@ -250,6 +312,19 @@ export default function App() {
     setPredictInput('');
   }, [saveCurrentState]);
 
+  // ─── もう一度挑戦 ────────────────────────────────────────────
+  const handleRetry = useCallback(() => {
+    setShowCompletion(false);
+    setCurrentIndex(0);
+    setIsCorrect(null);
+    setOutput(null);
+    setPredictInput('');
+    // スコアもリセット
+    const empty = new Set<string>();
+    setAnsweredSet(empty);
+    setCorrectCount(0);
+  }, []);
+
   // ─── セット変更時: answeredSet / correctCount を再構築 ──────
   useEffect(() => {
     const s = initAnsweredSet(setIndex);
@@ -264,7 +339,7 @@ export default function App() {
 
     const rec         = loadRecord(problem.id);
     const savedAnswer = rec.lastAnswer.length > 0 ? rec.lastAnswer : undefined;
-    const state       = buildEditorState(problem, savedAnswer);
+    const state       = buildEditorState(problem, savedAnswer, hintsEnabled);
     const view        = new EditorView({ state, parent: containerRef.current });
     viewRef.current   = view;
 
@@ -274,7 +349,7 @@ export default function App() {
     setPredictInput(problem.type === 'predict-output' ? rec.lastAnswer : '');
 
     return () => { view.destroy(); viewRef.current = null; };
-  }, [setIndex, currentIndex]);
+  }, [setIndex, currentIndex, hintsEnabled]);
 
   // ─── Pyodide 事前ロード ───────────────────────────────────
   useEffect(() => {
@@ -327,7 +402,16 @@ export default function App() {
         `sys.stdout = sys.__stdout__\n_buf.getvalue().strip()`
       ) as string;
       setOutput(captured);
-      const correct = captured === problem.correctOutput.trim();
+      let correct = captured === problem.correctOutput.trim();
+      // 出力が合っていても必須トークンが不足していれば不正解
+      if (correct) {
+        const answer  = getHoleContent(viewRef.current, problem);
+        const missing = missingTokens(answer, problem.requiredTokens);
+        if (missing.length > 0) {
+          correct = false;
+          setOutput(`出力は合っています！ ヒント: ${missing.map(t => `「${t}」`).join('、')} を使って書いてみましょう`);
+        }
+      }
       setIsCorrect(correct);
       const rec = loadRecord(problem.id);
       if (correct) rec.correctCount++; else rec.incorrectCount++;
@@ -414,7 +498,18 @@ export default function App() {
                     className="fixed inset-0 z-10"
                     onClick={() => setSettingsOpen(false)}
                   />
-                  <div className="absolute right-0 mt-1 z-20 bg-white border border-slate-200 rounded-xl shadow-lg py-1.5 min-w-[160px]">
+                  <div className="absolute right-0 mt-1 z-20 bg-white border border-slate-200 rounded-xl shadow-lg py-1.5 min-w-[200px]">
+                    {/* ヒント切り替え */}
+                    <button
+                      onClick={() => setHintsEnabled(v => !v)}
+                      className="w-full flex items-center justify-between px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 transition-colors"
+                    >
+                      <span>キーワードヒント</span>
+                      <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${hintsEnabled ? 'bg-blue-100 text-blue-600' : 'bg-slate-100 text-slate-400'}`}>
+                        {hintsEnabled ? 'ON' : 'OFF'}
+                      </span>
+                    </button>
+                    <div className="border-t border-slate-100 my-1" />
                     <button
                       onClick={() => {
                         setSettingsOpen(false);
@@ -487,6 +582,17 @@ export default function App() {
       {/* ══ メインコンテンツ ════════════════════════════════════ */}
       <main className="flex-1 flex flex-col min-h-0 px-8 py-5 gap-4 w-full max-w-6xl mx-auto">
 
+        {/* ══ 完了画面 ══════════════════════════════════════════ */}
+        {showCompletion ? (
+          <CompletionScreen
+            correctCount={correctCount}
+            totalCount={currentSet.length}
+            answeredSet={answeredSet}
+            setIndex={setIndex}
+            onRetry={handleRetry}
+          />
+        ) : (<>
+
         {/* ナビゲーション */}
         <div className="flex items-center justify-between flex-shrink-0">
           <button
@@ -554,13 +660,22 @@ export default function App() {
         {/* 答え合わせ ＋ 正誤 */}
         <div className="flex items-center gap-5 flex-shrink-0 pb-2">
           {isCorrect === true ? (
-            <button
-              onClick={() => navigateTo(currentIndex + 1)}
-              disabled={currentIndex === currentSet.length - 1}
-              className="bg-green-500 hover:bg-green-600 active:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 px-10 rounded-xl shadow-md transition text-base"
-            >
-              次の問題 →
-            </button>
+            currentIndex === currentSet.length - 1 ? (
+              // 最終問題で正解 → 結果を見るボタン
+              <button
+                onClick={() => setShowCompletion(true)}
+                className="bg-yellow-500 hover:bg-yellow-600 active:bg-yellow-700 text-white font-bold py-3 px-10 rounded-xl shadow-md transition text-base"
+              >
+                結果を見る 🎯
+              </button>
+            ) : (
+              <button
+                onClick={() => navigateTo(currentIndex + 1)}
+                className="bg-green-500 hover:bg-green-600 active:bg-green-700 text-white font-bold py-3 px-10 rounded-xl shadow-md transition text-base"
+              >
+                次の問題 →
+              </button>
+            )
           ) : (
             <button
               onClick={checkAnswer}
@@ -576,6 +691,7 @@ export default function App() {
           {isCorrect === false && <span className="text-red-500   font-extrabold text-xl">❌ 残念、違います。</span>}
         </div>
 
+        </>)}  {/* end of showCompletion ? ... : <> ... </> */}
       </main>
     </div>
   );

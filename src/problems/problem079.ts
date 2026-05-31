@@ -2,7 +2,7 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 79,
-  title: "関数の本体を埋めよ①: double",
+  title: "引数の 2 倍を返す関数 double を完成させてください",
   type: 'fill-in',
   codeWithMarker: `def double(n):
     §§§§§§§§§§§§§§§
@@ -10,6 +10,7 @@ const problem: Problem = {
 print(double(5))
 `,
   correctOutput: "10",
+  requiredTokens: ['return', 'n'],
 };
 
 export default problem;

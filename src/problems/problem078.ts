@@ -2,7 +2,7 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 78,
-  title: "while条件を埋めよ: 合計が閾値を超えるまで",
+  title: "合計が 10 を超えるまで足し続けるプログラムを完成させてください",
   type: 'fill-in',
   codeWithMarker: `total = 0
 i = 1
@@ -12,6 +12,7 @@ while §§§§§§§§§§:
 print(total)
 `,
   correctOutput: "15",
+  requiredTokens: ['total'],
 };
 
 export default problem;

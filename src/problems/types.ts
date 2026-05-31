@@ -13,4 +13,7 @@ export type Problem = {
 
   // 共通: 期待する出力
   correctOutput: string;
+
+  // fill-in 用: 穴の中に含まれていなければならないトークン（省略時は制約なし）
+  requiredTokens?: string[];
 };

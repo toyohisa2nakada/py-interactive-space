@@ -2,9 +2,9 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 58,
-  title: "range のステップ: 偶数のみ",
+  title: "0, 2, 4, 6, 8 と偶数を表示するプログラムを完成させてください",
   type: 'fill-in',
-  codeWithMarker: `# 0, 2, 4, 6, 8 を出力せよ
+  codeWithMarker: `# 0, 2, 4, 6, 8 と偶数を表示してください
 for i in range(0, 10, §):
     print(i)
 `,

@@ -2,7 +2,7 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 22,
-  title: "if/elif/else: 成績判定",
+  title: "score が 75 のとき、成績判定の結果を予想してください",
   type: 'predict-output',
   code: `score = 75
 if score >= 80:

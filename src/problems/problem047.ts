@@ -2,7 +2,7 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 47,
-  title: "リストの count()",
+  title: "リストに 2 が何個含まれているか予想してください",
   type: 'predict-output',
   code: `nums = [1, 2, 2, 3, 2, 4]
 print(nums.count(2))

@@ -2,9 +2,9 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 57,
-  title: "range の引数: 0 から 4 まで出力",
+  title: "0 から 4 まで順に表示するプログラムを完成させてください",
   type: 'fill-in',
-  codeWithMarker: `# 0 から 4 まで（5個）を順に出力せよ
+  codeWithMarker: `# 0 から 4 まで順に表示してください
 for i in range(§):
     print(i)
 `,

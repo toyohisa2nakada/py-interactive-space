@@ -2,7 +2,7 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 7,
-  title: "かけ算の結果",
+  title: "a と b のかけ算の結果を予想してください",
   type: 'predict-output',
   code: `a = 6
 b = 7

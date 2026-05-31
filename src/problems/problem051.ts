@@ -2,9 +2,9 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 51,
-  title: "変数代入①: x に 10 を代入せよ",
+  title: "x に 10 を代入して表示するプログラムを完成させてください",
   type: 'fill-in',
-  codeWithMarker: `# 変数 x に 10 を代入して出力せよ
+  codeWithMarker: `# x に 10 を代入して表示してください
 x = §§
 print(x)
 `,

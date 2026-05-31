@@ -2,10 +2,10 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 87,
-  title: "関数を完成せよ⑦: celsius_to_fahrenheit（多テスト）",
+  title: "摂氏を華氏に変換する関数を完成させてください",
   type: 'fill-in',
-  codeWithMarker: `# 関数 celsius_to_fahrenheit を完成させよ（F = C * 9/5 + 32）
-# テスト: 0→32.0, 100→212.0, -40→-40.0
+  codeWithMarker: `# 摂氏を華氏に変換する関数を完成させてください（F = C × 9/5 + 32）
+# 例: 0°C → 32.0°F、100°C → 212.0°F、-40°C → -40.0°F
 def celsius_to_fahrenheit(c):
     §§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§
 
@@ -14,6 +14,7 @@ print(celsius_to_fahrenheit(100))
 print(celsius_to_fahrenheit(-40))
 `,
   correctOutput: "32.0\n212.0\n-40.0",
+  requiredTokens: ['return', 'c'],
 };
 
 export default problem;

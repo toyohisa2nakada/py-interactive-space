@@ -2,13 +2,14 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 63,
-  title: "文字列の長さを出力せよ",
+  title: "文字列の長さを求めて表示するプログラムを完成させてください",
   type: 'fill-in',
   codeWithMarker: `s = "Programming"
-# 文字列の長さを出力せよ
+# 文字列の長さを求めて表示してください
 §§§§§§§§§§§§§§§§§
 `,
   correctOutput: "11",
+  requiredTokens: ['len'],
 };
 
 export default problem;

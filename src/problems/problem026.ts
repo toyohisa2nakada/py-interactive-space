@@ -2,7 +2,7 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 26,
-  title: "リストへのappend",
+  title: "リストに要素を追加した後の状態を予想してください",
   type: 'predict-output',
   code: `nums = []
 for i in range(3):

@@ -2,7 +2,7 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 3,
-  title: "変数の値は？",
+  title: "変数 x に代入された値を予想してください",
   type: 'predict-output',
   code: `x = 42
 print(x)

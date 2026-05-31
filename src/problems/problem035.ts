@@ -2,7 +2,7 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 35,
-  title: "剰余演算 %",
+  title: "10 を 3 で割った余りを予想してください",
   type: 'predict-output',
   code: `x = 10
 y = 3

@@ -2,9 +2,9 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 52,
-  title: "変数代入②: a + b が 8 になるように",
+  title: "a + b が 8 になるよう、a の値を入れてください",
   type: 'fill-in',
-  codeWithMarker: `# a + b の結果が 8 になるように a に値を代入せよ
+  codeWithMarker: `# a + b が 8 になるよう a に値を入れてください
 a = §
 b = 3
 print(a + b)

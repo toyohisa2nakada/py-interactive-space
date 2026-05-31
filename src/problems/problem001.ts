@@ -2,7 +2,7 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 1,
-  title: "出力は？",
+  title: "print(3) の出力を予想してください",
   type: 'predict-output',
   code: `
 print(3)

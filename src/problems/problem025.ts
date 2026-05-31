@@ -2,7 +2,7 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 25,
-  title: "sum関数",
+  title: "リストの合計を予想してください",
   type: 'predict-output',
   code: `print(sum([1, 2, 3, 4, 5]))
 `,

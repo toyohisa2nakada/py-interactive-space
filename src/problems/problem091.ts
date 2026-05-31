@@ -2,12 +2,13 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 91,
-  title: "プログラムを作れ①: 1から5を出力",
+  title: "1 から 5 まで順に表示するプログラムを書いてください",
   type: 'fill-in',
-  codeWithMarker: `# 1 から 5 まで順に出力せよ
+  codeWithMarker: `# 1 から 5 まで順に表示するプログラムを書いてください
 §§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§
 `,
   correctOutput: "1\n2\n3\n4\n5",
+  requiredTokens: ['print'],
 };
 
 export default problem;

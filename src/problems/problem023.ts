@@ -2,7 +2,7 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 23,
-  title: "forループ + if: 偶数のみ出力",
+  title: "0〜4 の中で偶数だけを表示します。出力を予想してください",
   type: 'predict-output',
   code: `for i in range(5):
     if i % 2 == 0:

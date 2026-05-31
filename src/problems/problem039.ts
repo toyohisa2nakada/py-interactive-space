@@ -2,7 +2,7 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 39,
-  title: "enumerate の出力",
+  title: "enumerate でインデックスと要素を表示します。出力を予想してください",
   type: 'predict-output',
   code: `fruits = ["apple", "banana", "cherry"]
 for i, fruit in enumerate(fruits):

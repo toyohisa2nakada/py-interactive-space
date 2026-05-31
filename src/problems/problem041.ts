@@ -2,7 +2,7 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 41,
-  title: "sorted() の出力",
+  title: "sorted() で並べ替えたリストを予想してください",
   type: 'predict-output',
   code: `nums = [3, 1, 4, 1, 5]
 print(sorted(nums))

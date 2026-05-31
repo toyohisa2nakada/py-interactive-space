@@ -2,7 +2,7 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 66,
-  title: "if文の条件を埋めよ①: 正の数",
+  title: "x が正の数のとき「正の数」と表示するプログラムを完成させてください",
   type: 'fill-in',
   codeWithMarker: `x = 7
 if §§§§§§§:
@@ -11,6 +11,7 @@ else:
     print("0以下")
 `,
   correctOutput: "正の数",
+  requiredTokens: ['x'],
 };
 
 export default problem;
