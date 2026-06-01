@@ -26,6 +26,9 @@ export function onAnswerResult(
   studentName: string,
 ): void {
   console.log({ setNumber, setPosition, problemId, correct, problemStatuses, studentId, studentName });
+  if (!studentId || studentId.length === 0) {
+    return;
+  }
 
   post({ setNumber, setPosition, problemId, correct, studentId, studentName, total: "" });
   if (problemStatuses.every(e => e === 'correct')) {

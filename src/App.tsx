@@ -318,11 +318,11 @@ export default function App() {
   const [plusOneKey, setPlusOneKey] = useState(0);
   const [showPlusOne, setShowPlusOne] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [hintsEnabled, setHintsEnabled] = useState(false);
+  const [hintsEnabled, setHintsEnabled] = useState(true);
   const [showCompletion, setShowCompletion] = useState(false);
 
   // ─── 学生データ
-  const [studentData, setStudentData] = useState<StudentData | null>(() => loadStudentData());
+  const [studentData, setStudentData] = useState<StudentData | null>(() => urlSetLocked ? loadStudentData() : null);
   const [regId, setRegId] = useState('');
   const [regName, setRegName] = useState('');
   const [regIdError, setRegIdError] = useState('');
@@ -589,6 +589,7 @@ export default function App() {
                         Object.keys(localStorage)
                           .filter(k => k.startsWith(`${STORAGE_PREFIX}_${TODAY}_`))
                           .forEach(k => localStorage.removeItem(k));
+                        window.removeEventListener('beforeunload', saveCurrentState)
                         window.location.reload();
                       }}
                       className="w-full flex items-center gap-2 px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 transition-colors"
