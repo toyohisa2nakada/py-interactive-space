@@ -4,7 +4,7 @@ import { EditorState, StateField } from '@codemirror/state';
 import type { Problem } from './problems';
 // ↓ この1行を変えると完了演出が切り替わります
 import { CompletionScreen } from './CompletionScreenC';
-import { onAnswerResult }   from './onAnswerResult';
+import { onAnswerResult, type ProblemStatus } from './onAnswerResult';
 import { problemSet00 } from './problems/index00';
 import { problemSet01 } from './problems/index01';
 import { problemSet02 } from './problems/index02';
@@ -33,8 +33,12 @@ const SET_DESCRIPTIONS = [
 
 function getInitialSetIndex(): number {
   const s = new URLSearchParams(window.location.search).get('set');
-  if (s) { const n = parseInt(s, 10); if (n >= 1 && n <= ALL_SETS.length) return n - 1; }
-  return 0;
+  if (s) {
+    const n = parseInt(s, 10);
+    // ?set=N → ALL_SETS[N] を直接使う（0=テスト, 1=セット1, ...）
+    if (!isNaN(n) && n >= 0 && n < ALL_SETS.length) return n;
+  }
+  return 0; // パラメータなし = 教師モード、デフォルトは番号最小のセット
 }
 
 /** URL の ?set=N の N をそのまま返す。パラメータなしなら null */
@@ -127,6 +131,19 @@ function getHoleContent(view: EditorView, problem: Problem): string {
   const suffix   = raw.slice(holeFrom + m[0].length);
   const doc      = view.state.doc.toString();
   return doc.slice(holeFrom, doc.length - suffix.length);
+}
+
+/**
+ * セット全問題の正誤ステータス配列を構築する。
+ * saveRecord 呼び出し後に使うこと（当問題の結果も含まれる）。
+ */
+function buildProblemStatuses(problems: Problem[]): ProblemStatus[] {
+  return problems.map(p => {
+    const rec = loadRecord(p.id);
+    if (rec.correctCount   > 0) return 'correct';
+    if (rec.incorrectCount > 0) return 'incorrect';
+    return 'unanswered';
+  });
 }
 
 /** 必須トークンのうち answer に含まれないものを返す */
@@ -420,7 +437,7 @@ export default function App() {
       if (correct) rec.correctCount++; else rec.incorrectCount++;
       rec.lastAnswer = predictInput;
       saveRecord(problem.id, rec);
-      onAnswerResult(currentIndex + 1, problem.id, correct, currentSet.length, studentData?.studentId ?? '', URL_SET_NUMBER);
+      onAnswerResult(URL_SET_NUMBER, currentIndex + 1, problem.id, correct, buildProblemStatuses(currentSet), studentData?.studentId ?? '', studentData?.studentName ?? '');
       if (correct) triggerScore();
       return;
     }
@@ -453,7 +470,7 @@ export default function App() {
       rec.lastAnswer = getHoleContent(viewRef.current, problem);
       rec.lastOutput = captured;
       saveRecord(problem.id, rec);
-      onAnswerResult(currentIndex + 1, problem.id, correct, currentSet.length, studentData?.studentId ?? '', URL_SET_NUMBER);
+      onAnswerResult(URL_SET_NUMBER, currentIndex + 1, problem.id, correct, buildProblemStatuses(currentSet), studentData?.studentId ?? '', studentData?.studentName ?? '');
       if (correct) triggerScore();
     } catch (e) {
       // Traceback を除いて最後のエラー行だけ表示
