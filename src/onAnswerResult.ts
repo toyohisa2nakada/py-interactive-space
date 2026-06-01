@@ -12,12 +12,12 @@
  * @param setNumber    セット番号（?set=N の N、URLパラメータなしの場合は null）
  */
 export function onAnswerResult(
-  setPosition: number,
-  problemId:   number,
-  correct:     boolean,
-  totalInSet:  number,
-  studentId:   string,
-  setNumber:   number | null,
+  _setPosition: number,
+  _problemId:   number,
+  _correct:     boolean,
+  _totalInSet:  number,
+  _studentId:   string,
+  _setNumber:   number | null,
 ): void {
   // ── ここに独自実装を追加してください ────────────────────────
   // 例:
