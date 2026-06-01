@@ -4,6 +4,7 @@ import { EditorState, StateField } from '@codemirror/state';
 import type { Problem } from './problems';
 // ↓ この1行を変えると完了演出が切り替わります
 import { CompletionScreen } from './CompletionScreenC';
+import { onAnswerResult }   from './onAnswerResult';
 import { problemSet00 } from './problems/index00';
 import { problemSet01 } from './problems/index01';
 import { problemSet02 } from './problems/index02';
@@ -35,6 +36,14 @@ function getInitialSetIndex(): number {
   if (s) { const n = parseInt(s, 10); if (n >= 1 && n <= ALL_SETS.length) return n - 1; }
   return 0;
 }
+
+/** URL の ?set=N の N をそのまま返す。パラメータなしなら null */
+const URL_SET_NUMBER: number | null = (() => {
+  const s = new URLSearchParams(window.location.search).get('set');
+  if (!s) return null;
+  const n = parseInt(s, 10);
+  return isNaN(n) ? null : n;
+})();
 
 // ─── LocalStorage ─────────────────────────────────────────────
 interface ProblemRecord {
@@ -71,6 +80,25 @@ function initAnsweredSet(setIdx: number): Set<string> {
     if (loadRecord(p.id).correctCount > 0) s.add(`${setIdx}-${idx}`);
   });
   return s;
+}
+
+// ─── 学生データ ───────────────────────────────────────────────
+const STUDENT_KEY    = 'whisker-iu-studentData';
+const STUDENT_ID_RE  = /^\d{2}IM\d{4}$/i;
+
+interface StudentData { studentId: string; studentName: string; }
+
+function loadStudentData(): StudentData | null {
+  try {
+    const raw = localStorage.getItem(STUDENT_KEY);
+    if (!raw) return null;
+    const d = JSON.parse(raw);
+    if (d?.studentId && d?.studentName) return d as StudentData;
+    return null;
+  } catch { return null; }
+}
+function saveStudentData(d: StudentData): void {
+  try { localStorage.setItem(STUDENT_KEY, JSON.stringify(d)); } catch {}
 }
 
 // ─── Pyodide ─────────────────────────────────────────────────
@@ -276,6 +304,12 @@ export default function App() {
   const [hintsEnabled,   setHintsEnabled]  = useState(false);
   const [showCompletion, setShowCompletion] = useState(false);
 
+  // ─── 学生データ
+  const [studentData,    setStudentData]   = useState<StudentData | null>(() => loadStudentData());
+  const [regId,          setRegId]         = useState('');
+  const [regName,        setRegName]       = useState('');
+  const [regIdError,     setRegIdError]    = useState('');
+
   const containerRef = useRef<HTMLDivElement | null>(null);
   const viewRef      = useRef<EditorView | null>(null);
 
@@ -386,6 +420,7 @@ export default function App() {
       if (correct) rec.correctCount++; else rec.incorrectCount++;
       rec.lastAnswer = predictInput;
       saveRecord(problem.id, rec);
+      onAnswerResult(currentIndex + 1, problem.id, correct, currentSet.length, studentData?.studentId ?? '', URL_SET_NUMBER);
       if (correct) triggerScore();
       return;
     }
@@ -418,6 +453,7 @@ export default function App() {
       rec.lastAnswer = getHoleContent(viewRef.current, problem);
       rec.lastOutput = captured;
       saveRecord(problem.id, rec);
+      onAnswerResult(currentIndex + 1, problem.id, correct, currentSet.length, studentData?.studentId ?? '', URL_SET_NUMBER);
       if (correct) triggerScore();
     } catch (e) {
       // Traceback を除いて最後のエラー行だけ表示
@@ -475,8 +511,15 @@ export default function App() {
             <span className="text-slate-400 text-sm">/ {currentSet.length}</span>
           </div>
 
-          {/* 右：歯車ボタン ＋ 設定ドロップダウン */}
-          <div className="flex justify-end">
+          {/* 右：学生情報 ＋ 歯車ボタン */}
+          <div className="flex items-center justify-end gap-3">
+            {/* 学生情報表示（URLロック時のみ） */}
+            {urlSetLocked && studentData && (
+              <div className="text-right leading-tight">
+                <p className="text-xs text-slate-400 font-mono">{studentData.studentId}</p>
+                <p className="text-sm font-semibold text-slate-700">{studentData.studentName}</p>
+              </div>
+            )}
             <div className="relative">
               <button
                 onClick={() => setSettingsOpen(o => !o)}
@@ -527,9 +570,9 @@ export default function App() {
                   </div>
                 </>
               )}
-            </div>
-          </div>
-        </div>
+            </div>{/* end gear relative wrapper */}
+          </div>{/* end right col */}
+        </div>{/* end grid row */}
 
         {/* 下段：問題番号トラッカー */}
         <div className="flex flex-wrap items-center gap-1.5 px-8 pb-3 pt-1">
@@ -582,8 +625,69 @@ export default function App() {
       {/* ══ メインコンテンツ ════════════════════════════════════ */}
       <main className="flex-1 flex flex-col min-h-0 px-8 py-5 gap-4 w-full max-w-6xl mx-auto">
 
-        {/* ══ 完了画面 ══════════════════════════════════════════ */}
-        {showCompletion ? (
+        {/* ══ ハードブロック：学生情報未登録（URLロック時のみ）══ */}
+        {urlSetLocked && !studentData ? (
+          <div className="flex-1 flex items-center justify-center">
+            <div className="bg-white rounded-2xl shadow-xl p-10 w-full max-w-md space-y-6">
+              <div className="text-center space-y-1">
+                <div className="text-4xl mb-2">🐍</div>
+                <h1 className="text-2xl font-extrabold text-slate-800">Python 練習問題</h1>
+                <p className="text-slate-500 text-sm">始める前に学籍番号と氏名を入力してください</p>
+              </div>
+
+              <div className="space-y-4">
+                {/* 学籍番号 */}
+                <div className="space-y-1">
+                  <label className="text-sm font-semibold text-slate-600">学籍番号</label>
+                  <input
+                    type="text"
+                    value={regId}
+                    onChange={e => { setRegId(e.target.value.toUpperCase()); setRegIdError(''); }}
+                    placeholder="例: 26IM0000"
+                    className={`w-full border rounded-xl px-4 py-3 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 ${regIdError ? 'border-red-400 bg-red-50' : 'border-slate-300'}`}
+                    autoComplete="off"
+                  />
+                  {regIdError && <p className="text-xs text-red-500">{regIdError}</p>}
+                </div>
+
+                {/* 氏名 */}
+                <div className="space-y-1">
+                  <label className="text-sm font-semibold text-slate-600">氏名</label>
+                  <input
+                    type="text"
+                    value={regName}
+                    onChange={e => setRegName(e.target.value)}
+                    placeholder="例: 情報 太郎"
+                    className="w-full border border-slate-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    autoComplete="off"
+                  />
+                </div>
+
+                {/* 始めるボタン */}
+                <button
+                  onClick={() => {
+                    const id   = regId.trim();
+                    const name = regName.trim();
+                    if (!STUDENT_ID_RE.test(id)) {
+                      setRegIdError('形式が正しくありません（例: 25IM0001）');
+                      return;
+                    }
+                    if (!name) return;
+                    const data = { studentId: id, studentName: name };
+                    saveStudentData(data);
+                    setStudentData(data);
+                  }}
+                  disabled={!regId || !regName}
+                  className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold py-3 rounded-xl shadow-md transition text-base"
+                >
+                  始める →
+                </button>
+              </div>
+            </div>
+          </div>
+
+        ) : /* ══ 完了画面 ══════════════════════════════════════════ */
+        showCompletion ? (
           <CompletionScreen
             correctCount={correctCount}
             totalCount={currentSet.length}
