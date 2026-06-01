@@ -25,15 +25,21 @@ export function onAnswerResult(
   studentId: string,
   studentName: string,
 ): void {
-  // ── ここに独自実装を追加してください ────────────────────────
-  // 例:
-  // const correctCount = problemStatuses.filter(s => s === 'correct').length;
   console.log({ setNumber, setPosition, problemId, correct, problemStatuses, studentId, studentName });
 
   post({ setNumber, setPosition, problemId, correct, studentId, studentName, total: "" });
   if (problemStatuses.every(e => e === 'correct')) {
     post({ setNumber, setPosition, problemId, correct, studentId, studentName, total: "すべて正解" });
   }
+}
+
+export function onSessionStart(
+  setNumber: number | null,
+  studentId: string,
+  studentName: string,
+): void {
+  console.log(studentId, studentName);
+  post({ setNumber, setPosition: -1, problemId: -1, correct: '', studentId, studentName, total: "ログイン" })
 }
 
 function post(postData: any) {

@@ -4,7 +4,7 @@ import { EditorState, StateField } from '@codemirror/state';
 import type { Problem } from './problems';
 // ↓ この1行を変えると完了演出が切り替わります
 import { CompletionScreen } from './CompletionScreenC';
-import { onAnswerResult, type ProblemStatus } from './onAnswerResult';
+import { onAnswerResult, onSessionStart, type ProblemStatus } from './sessionHandlers';
 import { problemSet00 } from './problems/index00';
 import { problemSet01 } from './problems/index01';
 import { problemSet02 } from './problems/index02';
@@ -20,7 +20,7 @@ const ALL_SETS = [
   problemSet01, problemSet02, problemSet03,
   problemSet04, problemSet05, problemSet06,
 ];
-const SET_LABELS       = ['セット0','セット1','セット2','セット3','セット4','セット5','セット6'];
+const SET_LABELS = ['セット0', 'セット1', 'セット2', 'セット3', 'セット4', 'セット5', 'セット6'];
 const SET_DESCRIPTIONS = [
   'テストセット',
   '超入門：変数・演算',
@@ -51,13 +51,13 @@ const URL_SET_NUMBER: number | null = (() => {
 
 // ─── LocalStorage ─────────────────────────────────────────────
 interface ProblemRecord {
-  correctCount:   number;   // 正解した回数
+  correctCount: number;   // 正解した回数
   incorrectCount: number;   // 不正解の回数
-  lastAnswer:     string;   // fill-in: 穴の内容 / predict-output: 入力テキスト
-  lastOutput:     string;   // fill-in: 最後の実行出力
+  lastAnswer: string;   // fill-in: 穴の内容 / predict-output: 入力テキスト
+  lastOutput: string;   // fill-in: 最後の実行出力
 }
 
-const TODAY          = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+const TODAY = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
 const STORAGE_PREFIX = 'pyp';
 
 function storageKey(problemId: number): string {
@@ -87,8 +87,8 @@ function initAnsweredSet(setIdx: number): Set<string> {
 }
 
 // ─── 学生データ ───────────────────────────────────────────────
-const STUDENT_KEY    = 'whisker-iu-studentData';
-const STUDENT_ID_RE  = /^\d{2}IM\d{4}$/i;
+const STUDENT_KEY = 'whisker-iu-studentData';
+const STUDENT_ID_RE = /^\d{2}IM\d{4}$/i;
 
 interface StudentData { studentId: string; studentName: string; }
 
@@ -102,7 +102,7 @@ function loadStudentData(): StudentData | null {
   } catch { return null; }
 }
 function saveStudentData(d: StudentData): void {
-  try { localStorage.setItem(STUDENT_KEY, JSON.stringify(d)); } catch {}
+  try { localStorage.setItem(STUDENT_KEY, JSON.stringify(d)); } catch { }
 }
 
 // ─── Pyodide ─────────────────────────────────────────────────
@@ -128,8 +128,8 @@ function getHoleContent(view: EditorView, problem: Problem): string {
   const m = raw.match(/§+/);
   if (!m) return '';
   const holeFrom = raw.indexOf(m[0]);
-  const suffix   = raw.slice(holeFrom + m[0].length);
-  const doc      = view.state.doc.toString();
+  const suffix = raw.slice(holeFrom + m[0].length);
+  const doc = view.state.doc.toString();
   return doc.slice(holeFrom, doc.length - suffix.length);
 }
 
@@ -140,7 +140,7 @@ function getHoleContent(view: EditorView, problem: Problem): string {
 function buildProblemStatuses(problems: Problem[]): ProblemStatus[] {
   return problems.map(p => {
     const rec = loadRecord(p.id);
-    if (rec.correctCount   > 0) return 'correct';
+    if (rec.correctCount > 0) return 'correct';
     if (rec.incorrectCount > 0) return 'incorrect';
     return 'unanswered';
   });
@@ -156,26 +156,26 @@ function missingTokens(answer: string, required: string[] | undefined): string[]
 import { PY_DICT } from './pyDict';
 
 function buildPyTooltip(view: EditorView, pos: number) {
-  const line    = view.state.doc.lineAt(pos);
-  const text    = line.text;
+  const line = view.state.doc.lineAt(pos);
+  const text = line.text;
   const linePos = pos - line.from;
 
   // ① アルファベット・数字・アンダースコアからなる単語を探す
   let start = linePos;
-  let end   = linePos;
+  let end = linePos;
   while (start > 0 && /[a-zA-Z0-9_]/.test(text[start - 1])) start--;
   while (end < text.length && /[a-zA-Z0-9_]/.test(text[end])) end++;
 
   // ② 単語が見つからなければ演算子を探す（2文字を優先）
   if (start === end) {
-    const c    = text[linePos]    ?? '';
+    const c = text[linePos] ?? '';
     const prev = text[linePos - 1] ?? '';
     const next = text[linePos + 1] ?? '';
     const op2r = c + next;       // カーソルが1文字目
     const op2l = prev + c;       // カーソルが2文字目
-    if      (PY_DICT[op2r]) { start = linePos;     end = linePos + 2; }
+    if (PY_DICT[op2r]) { start = linePos; end = linePos + 2; }
     else if (PY_DICT[op2l]) { start = linePos - 1; end = linePos + 1; }
-    else if (PY_DICT[c])    { start = linePos;     end = linePos + 1; }
+    else if (PY_DICT[c]) { start = linePos; end = linePos + 1; }
   }
 
   if (start === end) return null;
@@ -204,10 +204,10 @@ function buildPyTooltip(view: EditorView, pos: number) {
 function buildEditorState(problem: Problem, savedAnswer?: string, hintsEnabled = false): EditorState {
   const baseExtensions = [
     EditorView.theme({
-      '&':              { fontSize: '15px' },
-      '.cm-content':    { fontFamily: '"Fira Code","Cascadia Code",monospace', padding: '12px 0' },
-      '.cm-line':       { padding: '0 14px' },
-      '.readonly-bg':   { backgroundColor: '#f1f5f9', color: '#64748b' },
+      '&': { fontSize: '15px' },
+      '.cm-content': { fontFamily: '"Fira Code","Cascadia Code",monospace', padding: '12px 0' },
+      '.cm-line': { padding: '0 14px' },
+      '.readonly-bg': { backgroundColor: '#f1f5f9', color: '#64748b' },
       '.editable-hole': { backgroundColor: '#fefce8', color: '#1e293b', borderBottom: '2px solid #fbbf24' },
     }),
     ...(hintsEnabled ? [hoverTooltip(buildPyTooltip, { hideOnChange: true })] : []),
@@ -226,17 +226,17 @@ function buildEditorState(problem: Problem, savedAnswer?: string, hintsEnabled =
   }
 
   // fill-in: 穴あきエディタ
-  const raw         = problem.codeWithMarker ?? '';
+  const raw = problem.codeWithMarker ?? '';
   const markerMatch = raw.match(/§+/);
-  const marker      = markerMatch ? markerMatch[0] : '§';
-  const holeFrom    = raw.indexOf(marker);
-  const suffix      = raw.slice(holeFrom + marker.length);
+  const marker = markerMatch ? markerMatch[0] : '§';
+  const holeFrom = raw.indexOf(marker);
+  const suffix = raw.slice(holeFrom + marker.length);
 
   // savedAnswer があればそれを穴の初期値に
   const holeContent = (savedAnswer != null && savedAnswer.length > 0)
     ? savedAnswer
     : ' '.repeat(marker.length);
-  const doc    = raw.slice(0, holeFrom) + holeContent + suffix;
+  const doc = raw.slice(0, holeFrom) + holeContent + suffix;
   const holeTo = holeFrom + holeContent.length;
 
   const rangeField = StateField.define<{ from: number; to: number }>({
@@ -300,39 +300,39 @@ function buildEditorState(problem: Problem, savedAnswer?: string, hintsEnabled =
 export default function App() {
   const urlSetLocked = useMemo(() => new URLSearchParams(window.location.search).has('set'), []);
 
-  const [setIndex,      setSetIndex]      = useState(getInitialSetIndex);
-  const [currentIndex,  setCurrentIndex]  = useState(0);
-  const [isCorrect,     setIsCorrect]     = useState<boolean | null>(null);
-  const [predictInput,  setPredictInput]  = useState('');
-  const [output,        setOutput]        = useState<string | null>(null);
-  const [pyStatus,      setPyStatus]      = useState<'idle'|'loading'|'ready'|'running'>('idle');
+  const [setIndex, setSetIndex] = useState(getInitialSetIndex);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
+  const [predictInput, setPredictInput] = useState('');
+  const [output, setOutput] = useState<string | null>(null);
+  const [pyStatus, setPyStatus] = useState<'idle' | 'loading' | 'ready' | 'running'>('idle');
 
   // ゲーミフィケーション — localStorage から初期値を構築
-  const [answeredSet,   setAnsweredSet]   = useState<Set<string>>(
+  const [answeredSet, setAnsweredSet] = useState<Set<string>>(
     () => initAnsweredSet(getInitialSetIndex())
   );
-  const [correctCount,  setCorrectCount]  = useState<number>(
+  const [correctCount, setCorrectCount] = useState<number>(
     () => initAnsweredSet(getInitialSetIndex()).size
   );
-  const [scoreBump,     setScoreBump]     = useState(false);
-  const [plusOneKey,    setPlusOneKey]    = useState(0);
-  const [showPlusOne,   setShowPlusOne]   = useState(false);
-  const [settingsOpen,   setSettingsOpen]  = useState(false);
-  const [hintsEnabled,   setHintsEnabled]  = useState(false);
+  const [scoreBump, setScoreBump] = useState(false);
+  const [plusOneKey, setPlusOneKey] = useState(0);
+  const [showPlusOne, setShowPlusOne] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [hintsEnabled, setHintsEnabled] = useState(false);
   const [showCompletion, setShowCompletion] = useState(false);
 
   // ─── 学生データ
-  const [studentData,    setStudentData]   = useState<StudentData | null>(() => loadStudentData());
-  const [regId,          setRegId]         = useState('');
-  const [regName,        setRegName]       = useState('');
-  const [regIdError,     setRegIdError]    = useState('');
+  const [studentData, setStudentData] = useState<StudentData | null>(() => loadStudentData());
+  const [regId, setRegId] = useState('');
+  const [regName, setRegName] = useState('');
+  const [regIdError, setRegIdError] = useState('');
 
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const viewRef      = useRef<EditorView | null>(null);
+  const viewRef = useRef<EditorView | null>(null);
 
   const currentSet = ALL_SETS[setIndex];
-  const problem    = currentSet[currentIndex];
-  const answerKey  = `${setIndex}-${currentIndex}`;
+  const problem = currentSet[currentIndex];
+  const answerKey = `${setIndex}-${currentIndex}`;
 
   // ─── 現在の問題の状態を localStorage に保存 ──────────────────
   const saveCurrentState = useCallback(() => {
@@ -376,6 +376,19 @@ export default function App() {
     setCorrectCount(0);
   }, []);
 
+  // ─── 日ごとの初回ログイン時の処理 ──────
+  useEffect(() => {
+    // 学生モードで未登録なら studentData がセットされるまで待つ
+    if (urlSetLocked && !studentData) return;
+
+    const sessionKey = `pyp_session_${TODAY}`
+      + (URL_SET_NUMBER !== null ? `_set${URL_SET_NUMBER}` : '');
+    if (localStorage.getItem(sessionKey)) return; // 今日すでに呼び出し済み
+
+    localStorage.setItem(sessionKey, '1');
+    onSessionStart(URL_SET_NUMBER, studentData?.studentId ?? '', studentData?.studentName ?? '');
+  }, [studentData]);
+
   // ─── セット変更時: answeredSet / correctCount を再構築 ──────
   useEffect(() => {
     const s = initAnsweredSet(setIndex);
@@ -388,11 +401,11 @@ export default function App() {
     if (!containerRef.current) return;
     viewRef.current?.destroy();
 
-    const rec         = loadRecord(problem.id);
+    const rec = loadRecord(problem.id);
     const savedAnswer = rec.lastAnswer.length > 0 ? rec.lastAnswer : undefined;
-    const state       = buildEditorState(problem, savedAnswer, hintsEnabled);
-    const view        = new EditorView({ state, parent: containerRef.current });
-    viewRef.current   = view;
+    const state = buildEditorState(problem, savedAnswer, hintsEnabled);
+    const view = new EditorView({ state, parent: containerRef.current });
+    viewRef.current = view;
 
     setIsCorrect(null);
     setOutput(null);
@@ -422,7 +435,7 @@ export default function App() {
     setShowPlusOne(false);
     setTimeout(() => { setPlusOneKey(k => k + 1); setShowPlusOne(true); }, 10);
     setScoreBump(false);
-    setTimeout(() => setScoreBump(true),  10);
+    setTimeout(() => setScoreBump(true), 10);
     setTimeout(() => setScoreBump(false), 610);
   }, [answeredSet, answerKey]);
 
@@ -446,7 +459,7 @@ export default function App() {
     setPyStatus('running');
     try {
       const code = viewRef.current.state.doc.toString();
-      const py   = await getPyodide();
+      const py = await getPyodide();
       py.globals.set('_output_lines', py.toPy([]));
       await py.runPythonAsync(`import sys, io\n_buf = io.StringIO()\nsys.stdout = _buf`);
       await py.runPythonAsync(code);
@@ -457,7 +470,7 @@ export default function App() {
       let correct = captured === problem.correctOutput.trim();
       // 出力が合っていても必須トークンが不足していれば不正解
       if (correct) {
-        const answer  = getHoleContent(viewRef.current, problem);
+        const answer = getHoleContent(viewRef.current, problem);
         const missing = missingTokens(answer, problem.requiredTokens);
         if (missing.length > 0) {
           correct = false;
@@ -540,11 +553,10 @@ export default function App() {
             <div className="relative">
               <button
                 onClick={() => setSettingsOpen(o => !o)}
-                className={`w-9 h-9 flex items-center justify-center rounded-lg text-lg transition-colors ${
-                  settingsOpen
-                    ? 'bg-slate-200 text-slate-700'
-                    : 'text-slate-400 hover:bg-slate-100 hover:text-slate-600'
-                }`}
+                className={`w-9 h-9 flex items-center justify-center rounded-lg text-lg transition-colors ${settingsOpen
+                  ? 'bg-slate-200 text-slate-700'
+                  : 'text-slate-400 hover:bg-slate-100 hover:text-slate-600'
+                  }`}
                 title="設定"
               >
                 ⚙
@@ -594,7 +606,7 @@ export default function App() {
         {/* 下段：問題番号トラッカー */}
         <div className="flex flex-wrap items-center gap-1.5 px-8 pb-3 pt-1">
           {currentSet.map((p, idx) => {
-            const solved    = answeredSet.has(`${setIndex}-${idx}`);
+            const solved = answeredSet.has(`${setIndex}-${idx}`);
             const isCurrent = idx === currentIndex;
             return (
               <button
@@ -603,9 +615,9 @@ export default function App() {
                 title={p.title}
                 className={[
                   'relative flex-shrink-0 w-8 h-8 rounded-lg text-xs font-bold transition-all duration-200',
-                  solved    ? 'bg-green-500 text-white shadow-sm'
-                  : isCurrent ? 'bg-blue-600 text-white shadow-sm'
-                              : 'bg-slate-100 text-slate-500 hover:bg-slate-200',
+                  solved ? 'bg-green-500 text-white shadow-sm'
+                    : isCurrent ? 'bg-blue-600 text-white shadow-sm'
+                      : 'bg-slate-100 text-slate-500 hover:bg-slate-200',
                   isCurrent ? 'ring-2 ring-offset-1 ring-blue-400' : '',
                 ].join(' ')}
               >
@@ -624,11 +636,10 @@ export default function App() {
             <button
               key={idx}
               onClick={() => switchSet(idx)}
-              className={`px-3 py-1 rounded-full text-xs font-semibold transition-all ${
-                setIndex === idx
-                  ? 'bg-blue-600 text-white shadow-sm'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-              }`}
+              className={`px-3 py-1 rounded-full text-xs font-semibold transition-all ${setIndex === idx
+                ? 'bg-blue-600 text-white shadow-sm'
+                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                }`}
             >
               {SET_LABELS[idx]}
               <span className="ml-1 hidden lg:inline font-normal opacity-70">
@@ -648,7 +659,7 @@ export default function App() {
             <div className="bg-white rounded-2xl shadow-xl p-10 w-full max-w-md space-y-6">
               <div className="text-center space-y-1">
                 <div className="text-4xl mb-2">🐍</div>
-                <h1 className="text-2xl font-extrabold text-slate-800">Python 練習問題</h1>
+                <h1 className="text-2xl font-extrabold text-slate-800">Python問題</h1>
                 <p className="text-slate-500 text-sm">始める前に学籍番号と氏名を入力してください</p>
               </div>
 
@@ -683,7 +694,7 @@ export default function App() {
                 {/* 始めるボタン */}
                 <button
                   onClick={() => {
-                    const id   = regId.trim();
+                    const id = regId.trim();
                     const name = regName.trim();
                     if (!STUDENT_ID_RE.test(id)) {
                       setRegIdError('形式が正しくありません（例: 25IM0001）');
@@ -704,115 +715,115 @@ export default function App() {
           </div>
 
         ) : /* ══ 完了画面 ══════════════════════════════════════════ */
-        showCompletion ? (
-          <CompletionScreen
-            correctCount={correctCount}
-            totalCount={currentSet.length}
-            answeredSet={answeredSet}
-            setIndex={setIndex}
-            onRetry={handleRetry}
-          />
-        ) : (<>
-
-        {/* ナビゲーション */}
-        <div className="flex items-center justify-between flex-shrink-0">
-          <button
-            onClick={() => navigateTo(currentIndex - 1)}
-            disabled={currentIndex === 0}
-            className="flex items-center gap-1 px-5 py-2.5 rounded-xl border border-slate-300 text-sm font-medium bg-white hover:bg-slate-50 disabled:opacity-25 disabled:cursor-not-allowed transition-colors shadow-sm"
-          >
-            ← 前の問題
-          </button>
-          <div className="flex flex-col items-center gap-0.5">
-            <span className="text-base font-bold text-slate-700">
-              {currentIndex + 1}
-              <span className="font-normal text-slate-400"> / {currentSet.length}</span>
-            </span>
-            <span className="text-xs text-slate-400">問題 No.{problem.id}</span>
-          </div>
-          <button
-            onClick={() => navigateTo(currentIndex + 1)}
-            disabled={currentIndex === currentSet.length - 1}
-            className="flex items-center gap-1 px-5 py-2.5 rounded-xl border border-slate-300 text-sm font-medium bg-white hover:bg-slate-50 disabled:opacity-25 disabled:cursor-not-allowed transition-colors shadow-sm"
-          >
-            次の問題 →
-          </button>
-        </div>
-
-        {/* タイトル */}
-        <h1 className="text-xl font-bold text-slate-800 flex-shrink-0 leading-snug">
-          {problem.title}
-        </h1>
-
-        {/* エディタ ＋ 出力欄（同じ flex-1 ブロックに収め、ボタンを押し出さない） */}
-        <div className="flex-1 min-h-0 flex flex-col gap-2">
-          <div
-            ref={containerRef}
-            className="flex-1 min-h-0 border border-slate-300 rounded-xl overflow-auto shadow-sm bg-white"
-            style={{ minHeight: '160px' }}
-          />
-
-          {/* fill-in: 実行結果 / エラー */}
-          {problem.type === 'fill-in' && output !== null && (
-            <div className="flex-shrink-0 max-h-32 overflow-y-auto bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 font-mono text-sm text-slate-700 whitespace-pre-wrap leading-relaxed">
-              <span className="text-slate-400 text-xs font-sans mr-2">出力:</span>{output}
-            </div>
-          )}
-        </div>
-
-        {/* predict-output: 予想入力欄 */}
-        {problem.type === 'predict-output' && (
-          <div className="flex-shrink-0 space-y-1.5">
-            <label className="text-sm font-semibold text-slate-600">
-              出力の予想を入力してください：
-            </label>
-            <input
-              type="text"
-              value={predictInput}
-              onChange={e => setPredictInput(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && checkAnswer()}
-              className="w-full border border-slate-300 rounded-xl px-4 py-3 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white shadow-sm"
-              placeholder="例: 42"
-              autoComplete="off"
+          showCompletion ? (
+            <CompletionScreen
+              correctCount={correctCount}
+              totalCount={currentSet.length}
+              answeredSet={answeredSet}
+              setIndex={setIndex}
+              onRetry={handleRetry}
             />
-          </div>
-        )}
+          ) : (<>
 
-        {/* 答え合わせ ＋ 正誤 */}
-        <div className="flex items-center gap-5 flex-shrink-0 pb-2">
-          {isCorrect === true ? (
-            currentIndex === currentSet.length - 1 ? (
-              // 最終問題で正解 → 結果を見るボタン
+            {/* ナビゲーション */}
+            <div className="flex items-center justify-between flex-shrink-0">
               <button
-                onClick={() => setShowCompletion(true)}
-                className="bg-yellow-500 hover:bg-yellow-600 active:bg-yellow-700 text-white font-bold py-3 px-10 rounded-xl shadow-md transition text-base"
+                onClick={() => navigateTo(currentIndex - 1)}
+                disabled={currentIndex === 0}
+                className="flex items-center gap-1 px-5 py-2.5 rounded-xl border border-slate-300 text-sm font-medium bg-white hover:bg-slate-50 disabled:opacity-25 disabled:cursor-not-allowed transition-colors shadow-sm"
               >
-                結果を見る 🎯
+                ← 前の問題
               </button>
-            ) : (
+              <div className="flex flex-col items-center gap-0.5">
+                <span className="text-base font-bold text-slate-700">
+                  {currentIndex + 1}
+                  <span className="font-normal text-slate-400"> / {currentSet.length}</span>
+                </span>
+                <span className="text-xs text-slate-400">問題 No.{problem.id}</span>
+              </div>
               <button
                 onClick={() => navigateTo(currentIndex + 1)}
-                className="bg-green-500 hover:bg-green-600 active:bg-green-700 text-white font-bold py-3 px-10 rounded-xl shadow-md transition text-base"
+                disabled={currentIndex === currentSet.length - 1}
+                className="flex items-center gap-1 px-5 py-2.5 rounded-xl border border-slate-300 text-sm font-medium bg-white hover:bg-slate-50 disabled:opacity-25 disabled:cursor-not-allowed transition-colors shadow-sm"
               >
                 次の問題 →
               </button>
-            )
-          ) : (
-            <button
-              onClick={checkAnswer}
-              disabled={pyStatus === 'loading' || pyStatus === 'running'}
-              className="bg-blue-600 hover:bg-blue-700 active:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 px-10 rounded-xl shadow-md transition text-base"
-            >
-              {pyStatus === 'loading' ? '⏳ 読み込み中…'
-                : pyStatus === 'running' ? '▶ 実行中…'
-                : '答え合わせ'}
-            </button>
-          )}
-          {isCorrect === true  && <span className="text-green-600 font-extrabold text-2xl animate-bounce">🎉 正解！</span>}
-          {isCorrect === false && <span className="text-red-500   font-extrabold text-xl">❌ 残念、違います。</span>}
-        </div>
+            </div>
 
-        </>)}  {/* end of showCompletion ? ... : <> ... </> */}
+            {/* タイトル */}
+            <h1 className="text-xl font-bold text-slate-800 flex-shrink-0 leading-snug">
+              {problem.title}
+            </h1>
+
+            {/* エディタ ＋ 出力欄（同じ flex-1 ブロックに収め、ボタンを押し出さない） */}
+            <div className="flex-1 min-h-0 flex flex-col gap-2">
+              <div
+                ref={containerRef}
+                className="flex-1 min-h-0 border border-slate-300 rounded-xl overflow-auto shadow-sm bg-white"
+                style={{ minHeight: '160px' }}
+              />
+
+              {/* fill-in: 実行結果 / エラー */}
+              {problem.type === 'fill-in' && output !== null && (
+                <div className="flex-shrink-0 max-h-32 overflow-y-auto bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 font-mono text-sm text-slate-700 whitespace-pre-wrap leading-relaxed">
+                  <span className="text-slate-400 text-xs font-sans mr-2">出力:</span>{output}
+                </div>
+              )}
+            </div>
+
+            {/* predict-output: 予想入力欄 */}
+            {problem.type === 'predict-output' && (
+              <div className="flex-shrink-0 space-y-1.5">
+                <label className="text-sm font-semibold text-slate-600">
+                  出力の予想を入力してください：
+                </label>
+                <input
+                  type="text"
+                  value={predictInput}
+                  onChange={e => setPredictInput(e.target.value)}
+                  onKeyDown={e => e.key === 'Enter' && checkAnswer()}
+                  className="w-full border border-slate-300 rounded-xl px-4 py-3 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white shadow-sm"
+                  placeholder="例: 42"
+                  autoComplete="off"
+                />
+              </div>
+            )}
+
+            {/* 答え合わせ ＋ 正誤 */}
+            <div className="flex items-center gap-5 flex-shrink-0 pb-2">
+              {isCorrect === true ? (
+                currentIndex === currentSet.length - 1 ? (
+                  // 最終問題で正解 → 結果を見るボタン
+                  <button
+                    onClick={() => setShowCompletion(true)}
+                    className="bg-yellow-500 hover:bg-yellow-600 active:bg-yellow-700 text-white font-bold py-3 px-10 rounded-xl shadow-md transition text-base"
+                  >
+                    結果を見る 🎯
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => navigateTo(currentIndex + 1)}
+                    className="bg-green-500 hover:bg-green-600 active:bg-green-700 text-white font-bold py-3 px-10 rounded-xl shadow-md transition text-base"
+                  >
+                    次の問題 →
+                  </button>
+                )
+              ) : (
+                <button
+                  onClick={checkAnswer}
+                  disabled={pyStatus === 'loading' || pyStatus === 'running'}
+                  className="bg-blue-600 hover:bg-blue-700 active:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 px-10 rounded-xl shadow-md transition text-base"
+                >
+                  {pyStatus === 'loading' ? '⏳ 読み込み中…'
+                    : pyStatus === 'running' ? '▶ 実行中…'
+                      : '答え合わせ'}
+                </button>
+              )}
+              {isCorrect === true && <span className="text-green-600 font-extrabold text-2xl animate-bounce">🎉 正解！</span>}
+              {isCorrect === false && <span className="text-red-500   font-extrabold text-xl">❌ 残念、違います。</span>}
+            </div>
+
+          </>)}  {/* end of showCompletion ? ... : <> ... </> */}
       </main>
     </div>
   );
