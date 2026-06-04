@@ -57,7 +57,6 @@ export function CompletionScreen({
   totalCount,
   answeredSet,
   setIndex,
-  onRetry,
 }: CompletionScreenProps) {
   const pct       = Math.round((correctCount / totalCount) * 100);
   const isPerfect = correctCount === totalCount;
@@ -113,6 +112,7 @@ export function CompletionScreen({
 
         {/* メッセージ */}
         <p className="text-lg font-semibold text-slate-600">{getMessage(pct)}</p>
+        <p className="text-lg font-semibold text-slate-900">この画面を講師に見せてください！！</p>
 
         {/* 問題ごとの結果グリッド */}
         <div>
@@ -135,12 +135,12 @@ export function CompletionScreen({
         </div>
 
         {/* もう一度挑戦ボタン */}
-        <button
+        {/* <button
           onClick={onRetry}
           className="bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold py-3 px-10 rounded-xl shadow-md transition text-base"
         >
           もう一度挑戦する ↺
-        </button>
+        </button> */}
       </div>
     </div>
   );

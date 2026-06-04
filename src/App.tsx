@@ -375,6 +375,7 @@ export default function App() {
     setAnsweredSet(empty);
     setCorrectCount(0);
   }, []);
+  console.log(handleRetry);
 
   // ─── 日ごとの初回ログイン時の処理 ──────
   useEffect(() => {
@@ -608,17 +609,20 @@ export default function App() {
         <div className="flex flex-wrap items-center gap-1.5 px-8 pb-3 pt-1">
           {currentSet.map((p, idx) => {
             const solved = answeredSet.has(`${setIndex}-${idx}`);
+            const isFrontier = !solved && (idx === 0 || answeredSet.has(`${setIndex}-${idx - 1}`));
             const isCurrent = idx === currentIndex;
             return (
               <button
                 key={idx}
+                disabled={!solved && idx > 0 && !answeredSet.has(`${setIndex}-${idx - 1}`)}
                 onClick={() => navigateTo(idx)}
                 title={p.title}
                 className={[
                   'relative flex-shrink-0 w-8 h-8 rounded-lg text-xs font-bold transition-all duration-200',
                   solved ? 'bg-green-500 text-white shadow-sm'
                     : isCurrent ? 'bg-blue-600 text-white shadow-sm'
-                      : 'bg-slate-100 text-slate-500 hover:bg-slate-200',
+                      : isFrontier ? 'bg-orange-400 text-white shadow-sm'
+                        : 'bg-slate-100 text-slate-300 cursor-not-allowed',
                   isCurrent ? 'ring-2 ring-offset-1 ring-blue-400' : '',
                 ].join(' ')}
               >
@@ -722,7 +726,7 @@ export default function App() {
               totalCount={currentSet.length}
               answeredSet={answeredSet}
               setIndex={setIndex}
-              onRetry={handleRetry}
+            // onRetry={handleRetry}
             />
           ) : (<>
 
@@ -744,7 +748,7 @@ export default function App() {
               </div>
               <button
                 onClick={() => navigateTo(currentIndex + 1)}
-                disabled={currentIndex === currentSet.length - 1}
+                disabled={currentIndex === currentSet.length - 1 || !answeredSet.has(answerKey)}
                 className="flex items-center gap-1 px-5 py-2.5 rounded-xl border border-slate-300 text-sm font-medium bg-white hover:bg-slate-50 disabled:opacity-25 disabled:cursor-not-allowed transition-colors shadow-sm"
               >
                 次の問題 →

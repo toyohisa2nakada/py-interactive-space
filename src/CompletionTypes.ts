@@ -6,5 +6,5 @@ export interface CompletionScreenProps {
   totalCount: number;         // セットの総問題数
   answeredSet: Set<string>;   // 正解済みキー集合（"setIndex-idx" 形式）
   setIndex: number;           // 現在のセット番号
-  onRetry: () => void;        // もう一度挑戦ボタンのコールバック
+  // onRetry: () => void;        // もう一度挑戦ボタンのコールバック
 }
