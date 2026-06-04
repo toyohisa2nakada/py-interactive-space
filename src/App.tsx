@@ -364,18 +364,16 @@ export default function App() {
   }, [saveCurrentState]);
 
   // ─── もう一度挑戦 ────────────────────────────────────────────
-  const handleRetry = useCallback(() => {
-    setShowCompletion(false);
-    setCurrentIndex(0);
-    setIsCorrect(null);
-    setOutput(null);
-    setPredictInput('');
-    // スコアもリセット
-    const empty = new Set<string>();
-    setAnsweredSet(empty);
-    setCorrectCount(0);
-  }, []);
-  console.log(handleRetry);
+  // const handleRetry = useCallback(() => {
+  //   setShowCompletion(false);
+  //   setCurrentIndex(0);
+  //   setIsCorrect(null);
+  //   setOutput(null);
+  //   setPredictInput('');
+  //   const empty = new Set<string>();
+  //   setAnsweredSet(empty);
+  //   setCorrectCount(0);
+  // }, []);
 
   // ─── 日ごとの初回ログイン時の処理 ──────
   useEffect(() => {
