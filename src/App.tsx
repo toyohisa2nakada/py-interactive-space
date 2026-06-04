@@ -412,7 +412,7 @@ export default function App() {
     setPredictInput(problem.type === 'predict-output' ? rec.lastAnswer : '');
 
     return () => { view.destroy(); viewRef.current = null; };
-  }, [setIndex, currentIndex, hintsEnabled]);
+  }, [setIndex, currentIndex, hintsEnabled, studentData]);
 
   // ─── Pyodide 事前ロード ───────────────────────────────────
   useEffect(() => {
