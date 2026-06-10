@@ -205,7 +205,7 @@ function buildEditorState(problem: Problem, savedAnswer?: string, hintsEnabled =
   const baseExtensions = [
     EditorView.theme({
       '&': { fontSize: '15px' },
-      '.cm-content': { fontFamily: '"Fira Code","Cascadia Code",monospace', padding: '12px 0' },
+      '.cm-content': { fontFamily: '"Fira Code","Cascadia Code",monospace', padding: '12px 0', fontFeatureSettings: '"liga" 0, "calt" 0' },
       '.cm-line': { padding: '0 14px' },
       '.readonly-bg': { backgroundColor: '#f1f5f9', color: '#64748b' },
       '.editable-hole': { backgroundColor: '#fefce8', color: '#1e293b', borderBottom: '2px solid #fbbf24' },
@@ -497,7 +497,7 @@ export default function App() {
 
   // ─── UI ───────────────────────────────────────────────────
   return (
-    <div className="h-screen flex flex-col bg-slate-50 overflow-hidden">
+    <div className="h-screen flex flex-col bg-slate-50 overflow-auto">
 
       {/* ══ ヘッダー ════════════════════════════════════════════ */}
       <header className="bg-white border-b border-slate-200 shadow-sm flex-shrink-0">
@@ -772,58 +772,57 @@ export default function App() {
                   <span className="text-slate-400 text-xs font-sans mr-2">出力:</span>{output}
                 </div>
               )}
-            </div>
 
-            {/* predict-output: 予想入力欄 */}
-            {problem.type === 'predict-output' && (
-              <div className="flex-shrink-0 space-y-1.5">
-                <label className="text-sm font-semibold text-slate-600">
-                  出力の予想を入力してください：
-                </label>
-                <input
-                  type="text"
-                  value={predictInput}
-                  onChange={e => setPredictInput(e.target.value)}
-                  onKeyDown={e => e.key === 'Enter' && checkAnswer()}
-                  className="w-full border border-slate-300 rounded-xl px-4 py-3 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white shadow-sm"
-                  placeholder="例: 42"
-                  autoComplete="off"
-                />
-              </div>
-            )}
+              {/* predict-output: 予想入力欄 */}
+              {problem.type === 'predict-output' && (
+                <div className="flex-shrink-0 space-y-1.5">
+                  <label className="text-sm font-semibold text-slate-600">
+                    出力の予想を入力してください：
+                  </label>
+                  <textarea
+                    value={predictInput}
+                    onChange={e => setPredictInput(e.target.value)}
+                    rows={4}
+                    className="w-full border border-slate-300 rounded-xl px-4 py-3 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white shadow-sm resize-none"
+                    placeholder="例: 42"
+                    autoComplete="off"
+                  />
+                </div>
+              )}
 
-            {/* 答え合わせ ＋ 正誤 */}
-            <div className="flex items-center gap-5 flex-shrink-0 pb-2">
-              {isCorrect === true ? (
-                currentIndex === currentSet.length - 1 ? (
-                  // 最終問題で正解 → 結果を見るボタン
-                  <button
-                    onClick={() => setShowCompletion(true)}
-                    className="bg-yellow-500 hover:bg-yellow-600 active:bg-yellow-700 text-white font-bold py-3 px-10 rounded-xl shadow-md transition text-base"
-                  >
-                    結果を見る 🎯
-                  </button>
+              {/* 答え合わせ ＋ 正誤 */}
+              <div className="flex items-center gap-5 flex-shrink-0 pb-2">
+                {isCorrect === true ? (
+                  currentIndex === currentSet.length - 1 ? (
+                    // 最終問題で正解 → 結果を見るボタン
+                    <button
+                      onClick={() => setShowCompletion(true)}
+                      className="bg-yellow-500 hover:bg-yellow-600 active:bg-yellow-700 text-white font-bold py-3 px-10 rounded-xl shadow-md transition text-base"
+                    >
+                      結果を見る 🎯
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => navigateTo(currentIndex + 1)}
+                      className="bg-green-500 hover:bg-green-600 active:bg-green-700 text-white font-bold py-3 px-10 rounded-xl shadow-md transition text-base"
+                    >
+                      次の問題 →
+                    </button>
+                  )
                 ) : (
                   <button
-                    onClick={() => navigateTo(currentIndex + 1)}
-                    className="bg-green-500 hover:bg-green-600 active:bg-green-700 text-white font-bold py-3 px-10 rounded-xl shadow-md transition text-base"
+                    onClick={checkAnswer}
+                    disabled={pyStatus === 'loading' || pyStatus === 'running'}
+                    className="bg-blue-600 hover:bg-blue-700 active:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 px-10 rounded-xl shadow-md transition text-base"
                   >
-                    次の問題 →
+                    {pyStatus === 'loading' ? '⏳ 読み込み中…'
+                      : pyStatus === 'running' ? '▶ 実行中…'
+                        : '答え合わせ'}
                   </button>
-                )
-              ) : (
-                <button
-                  onClick={checkAnswer}
-                  disabled={pyStatus === 'loading' || pyStatus === 'running'}
-                  className="bg-blue-600 hover:bg-blue-700 active:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 px-10 rounded-xl shadow-md transition text-base"
-                >
-                  {pyStatus === 'loading' ? '⏳ 読み込み中…'
-                    : pyStatus === 'running' ? '▶ 実行中…'
-                      : '答え合わせ'}
-                </button>
-              )}
-              {isCorrect === true && <span className="text-green-600 font-extrabold text-2xl animate-bounce">🎉 正解！</span>}
-              {isCorrect === false && <span className="text-red-500   font-extrabold text-xl">❌ 残念、違います。</span>}
+                )}
+                {isCorrect === true && <span className="text-green-600 font-extrabold text-2xl animate-bounce">🎉 正解！</span>}
+                {isCorrect === false && <span className="text-red-500   font-extrabold text-xl">❌ 残念、違います。</span>}
+              </div>
             </div>
 
           </>)}  {/* end of showCompletion ? ... : <> ... </> */}
