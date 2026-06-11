@@ -112,7 +112,7 @@ export function CompletionScreen({
 
         {/* メッセージ */}
         <p className="text-lg font-semibold text-slate-600">{getMessage(pct)}</p>
-        <p className="text-lg font-semibold text-slate-900">この画面を講師に見せてください！！</p>
+        <p className="text-lg font-semibold text-slate-900 animate-pulse">この画面を講師に見せてください！！</p>
 
         {/* 問題ごとの結果グリッド */}
         <div>

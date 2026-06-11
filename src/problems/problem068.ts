@@ -2,7 +2,7 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 68,
-  title: "偶数なら「偶数」、そうでなければ「奇数」と分岐するプログラムを完成させてください",
+  title: "偶数なら「偶数」、そうでなければ「奇数」と分岐するプログラムを完成させてください(字下げの位置に注意)",
   type: 'fill-in',
   codeWithMarker: `n = 4
 if n % 2 == 0:

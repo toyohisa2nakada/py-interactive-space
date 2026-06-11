@@ -10,11 +10,17 @@ import problem045 from './problem045';
 import problem015 from './problem015';
 import problem016 from './problem016';
 import problem017 from './problem017';
+import problem101 from './problem101';
+import problem102 from './problem102';
+import problem103 from './problem103';
+import problem104 from './problem104';
 import problem018 from './problem018';
 import problem019 from './problem019';
 import problem020 from './problem020';
 import problem021 from './problem021';
+import problem105 from './problem105';
 import problem057 from './problem057';
+import problem106 from './problem106';
 import problem058 from './problem058';
 import problem066 from './problem066';
 import problem067 from './problem067';
@@ -34,11 +40,17 @@ export const problemSet02: Problem[] = [
   problem015,
   problem016,
   problem017,
+  problem101,
+  problem102,
+  problem104,
+  problem103,
   problem018,
   problem019,
   problem020,
   problem021,
+  problem105,
   problem057,
+  problem106,
   problem058,
   problem066,
   problem067,
