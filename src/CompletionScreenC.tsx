@@ -96,7 +96,7 @@ export function CompletionScreen({
               <span className="text-3xl font-bold text-slate-400"> / {totalCount}</span>
             </div>
           )}
-          <p className="text-slate-500 font-medium">問正解</p>
+          <p className="text-slate-500 font-medium">問正解 セット{setIndex}</p>
         </div>
 
         {/* 正解率バー */}

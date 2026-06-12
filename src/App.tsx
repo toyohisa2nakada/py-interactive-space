@@ -507,20 +507,12 @@ export default function App() {
 
           {/* 左：タイトル */}
           <div className="flex items-center gap-3 min-w-0">
-            {urlSetLocked ? (
-              <span className="text-lg font-extrabold text-blue-600 whitespace-nowrap">
-                Python 練習問題
-              </span>
-            ) : (
-              <>
-                <span className="text-lg font-extrabold text-blue-600 whitespace-nowrap">
-                  {SET_LABELS[setIndex]}
-                </span>
-                <span className="text-sm text-slate-500 hidden md:inline truncate">
-                  {SET_DESCRIPTIONS[setIndex]}
-                </span>
-              </>
-            )}
+            <span className="text-lg font-extrabold text-blue-600 whitespace-nowrap">
+              {SET_LABELS[setIndex]}
+            </span>
+            <span className="text-sm text-slate-500 hidden md:inline truncate">
+              {SET_DESCRIPTIONS[setIndex]}
+            </span>
           </div>
 
           {/* 中央：正解数 */}
