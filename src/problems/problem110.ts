@@ -1,10 +1,10 @@
 import type { Problem } from './types';
 
 const problem: Problem = {
-  id: 22,
-  title: "成績判定の結果を予想してください",
-  type: 'predict-output',
-  code: `score = 75
+  id: 110,
+  title: "Sと判定されるように、空欄に数字を入力してください",
+  type: 'fill-in',
+  codeWithMarker: `score = §§
 if score >= 90:
     print("S")
 elif score >= 80:
@@ -15,9 +15,8 @@ elif score >= 60:
     print("C")
 else:
     print("D")
-
 `,
-  correctOutput: "B",
+  correctOutput: "S",
 };
 
 export default problem;

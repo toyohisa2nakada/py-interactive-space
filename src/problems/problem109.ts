@@ -1,10 +1,10 @@
 import type { Problem } from './types';
 
 const problem: Problem = {
-  id: 22,
+  id: 109,
   title: "成績判定の結果を予想してください",
   type: 'predict-output',
-  code: `score = 75
+  code: `score = -2
 if score >= 90:
     print("S")
 elif score >= 80:
@@ -15,9 +15,8 @@ elif score >= 60:
     print("C")
 else:
     print("D")
-
 `,
-  correctOutput: "B",
+  correctOutput: "D",
 };
 
 export default problem;

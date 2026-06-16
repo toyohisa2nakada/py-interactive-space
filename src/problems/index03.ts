@@ -4,6 +4,12 @@ import problem013 from './problem013';
 import problem015 from './problem015';
 import problem057 from './problem057';
 import problem022 from './problem022';
+
+import problem107 from './problem107';
+import problem108 from './problem108';
+import problem109 from './problem109';
+import problem110 from './problem110';
+
 import problem023 from './problem023';
 import problem024 from './problem024';
 import problem025 from './problem025';
@@ -27,6 +33,10 @@ export const problemSet03: Problem[] = [
   problem015,
   problem057,
   problem022,
+  problem107,
+  problem108,
+  problem109,
+  problem110,
   problem023,
   problem024,
   problem025,
