@@ -2,7 +2,7 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 27,
-  title: "文字列を分割して 2 番目の要素を取り出します。結果を予想してください",
+  title: "splitは指定された文字(この場合 , )で文字を分割します。またリストは0から順に中の要素を指定します。parts[1]は2番目の要素を表します",
   type: 'predict-output',
   code: `s = "a,b,c"
 parts = s.split(",")

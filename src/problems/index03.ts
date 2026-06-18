@@ -4,18 +4,22 @@ import problem013 from './problem013';
 import problem015 from './problem015';
 import problem057 from './problem057';
 import problem022 from './problem022';
-
 import problem107 from './problem107';
 import problem108 from './problem108';
 import problem109 from './problem109';
 import problem110 from './problem110';
-
 import problem023 from './problem023';
 import problem024 from './problem024';
 import problem025 from './problem025';
 import problem026 from './problem026';
+import problem017 from './problem017';
+import problem104 from './problem104';
 import problem027 from './problem027';
 import problem028 from './problem028';
+import problem111 from './problem111';
+import problem112 from './problem112';
+import problem113 from './problem113';
+import problem114 from './problem114';
 import problem029 from './problem029';
 import problem059 from './problem059';
 import problem060 from './problem060';
@@ -40,9 +44,14 @@ export const problemSet03: Problem[] = [
   problem023,
   problem024,
   problem025,
-  problem026,
+  problem017,
+  problem104,
   problem027,
   problem028,
+  problem111,
+  problem112,
+  problem113,
+  problem114,
   problem029,
   problem059,
   problem060,
@@ -51,5 +60,6 @@ export const problemSet03: Problem[] = [
   problem069,
   problem070,
   problem071,
+  problem026,
   problem072,
 ];

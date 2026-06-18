@@ -2,7 +2,7 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 29,
-  title: "3 の二乗と 4 の二乗の合計を予想してください",
+  title: "n ** 2 は n の2乗を計算します",
   type: 'predict-output',
   code: `a = 3
 b = 4
