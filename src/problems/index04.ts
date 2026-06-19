@@ -28,16 +28,21 @@ import problem077 from './problem077';
 import problem079 from './problem079';
 import problem080 from './problem080';
 import problem081 from './problem081';
+import problem103 from './problem103';
+import problem021 from './problem021';
+import problem123 from './problem123';
+import problem124 from './problem124';
+import problem125 from './problem125';
+import problem126 from './problem126';
+import problem127 from './problem127';
+import problem128 from './problem128';
 
 // セット4（中級：文字列・内包表記・関数）
 export const problemSet04: Problem[] = [
-  problem039,
+
+  // upper
+  problem021,
   problem073,
-  problem074,
-  problem077,
-  problem079,
-  problem080,
-  problem081,
 
 
   problem013,
@@ -57,9 +62,32 @@ export const problemSet04: Problem[] = [
   problem037,
   problem049,
   problem076,
+
+  // fstring前の文字結合
+  problem077,
+
+
   problem038,
   problem119,
   problem120,
   problem121,
   problem122,
+  problem103,
+  problem039,
+  problem074,
+
+  // 関数
+  problem123,
+  problem079,
+
+  // judge/chk 関数
+  problem124,
+  problem125,
+  problem126,
+  problem127,
+
+  // 関数作成系
+  problem080,
+  problem081,
+  problem128,
 ];

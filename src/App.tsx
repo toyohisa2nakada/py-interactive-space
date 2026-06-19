@@ -608,7 +608,7 @@ export default function App() {
                 onClick={() => navigateTo(idx)}
                 title={p.title}
                 className={[
-                  'relative flex-shrink-0 w-8 h-8 rounded-lg text-xs font-bold transition-all duration-200',
+                  'relative flex-shrink-0 w-4 h-4 rounded text-xs font-bold transition-all duration-200',
                   solved ? 'bg-green-500 text-white shadow-sm'
                     : isCurrent ? 'bg-blue-600 text-white shadow-sm'
                       : isFrontier ? 'bg-orange-400 text-white shadow-sm'
