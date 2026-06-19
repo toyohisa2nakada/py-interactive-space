@@ -2,12 +2,12 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 31,
-  title: "2〜8 を 2 ずつ増やして表示します。出力を予想してください",
+  title: "range(1, 10, 2) は、1からスタートして2ずつ増える数字を10未満の範囲で生成します。出力を予想してください",
   type: 'predict-output',
-  code: `for i in range(2, 10, 2):
+  code: `for i in range(1, 10, 2):
     print(i)
 `,
-  correctOutput: "2\n4\n6\n8",
+  correctOutput: "1\n3\n5\n7\n9",
 };
 
 export default problem;

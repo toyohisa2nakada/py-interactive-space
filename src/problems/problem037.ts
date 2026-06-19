@@ -2,12 +2,12 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 37,
-  title: "リスト内包表記で 2 倍のリストを作ります。結果を予想してください",
+  title: "リスト内包表記でリストを作ります。出力はスペースを入れず [0,1,2] のように括弧もつけてください。結果を予想してください",
   type: 'predict-output',
-  code: `nums = [x * 2 for x in range(5)]
+  code: `nums = [x for x in range(5)]
 print(nums)
 `,
-  correctOutput: "[0, 2, 4, 6, 8]",
+  correctOutput: "[0,1,2,3,4]",
 };
 
 export default problem;

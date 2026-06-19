@@ -2,13 +2,12 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 76,
-  title: "1 から 5 の二乗を並べたリストを作るプログラムを完成させてください",
+  title: "2 から 6 のリストを作ってください",
   type: 'fill-in',
-  codeWithMarker: `# 1 から 5 の 2 乗のリストを作ってください
-squares = [§§§§§§ for x in range(1, 6)]
+  codeWithMarker: `squares = [§§§§§§ for x in range(1, 6)]
 print(squares)
 `,
-  correctOutput: "[1, 4, 9, 16, 25]",
+  correctOutput: "[2, 3, 4, 5, 6]",
   requiredTokens: ['x'],
 };
 

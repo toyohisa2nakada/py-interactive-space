@@ -2,7 +2,7 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 33,
-  title: "リストをソートして先頭の要素を取り出します。結果を予想してください",
+  title: "sortは、リスト(この場合は nums)を小さい順にソートします。結果を予想してください",
   type: 'predict-output',
   code: `nums = [5, 3, 8, 1, 9, 2]
 nums.sort()
