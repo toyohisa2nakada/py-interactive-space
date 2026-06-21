@@ -34,12 +34,21 @@ import problem136 from './problem136';
 import problem137 from './problem137';
 import problem138 from './problem138';
 import problem056 from './problem056';
+import problem139 from './problem139';
+import problem140 from './problem140';
+import problem141 from './problem141';
+import problem142 from './problem142';
+import problem143 from './problem143';
+import problem144 from './problem144';
+import problem145 from './problem145';
+import problem146 from './problem146';
+import problem147 from './problem147';
 
 // セット5（中上級：関数・多テスト）
 export const problemSet05: Problem[] = [
   
-  // dict ({name:string, age:number})
-  problem042,
+
+  // join
   problem043,
   problem044,
   problem046,
@@ -84,4 +93,16 @@ export const problemSet05: Problem[] = [
   problem133,
   problem134,
   problem135,
+
+  // dict ({name:string, age:number})
+  problem042,
+  problem139,
+  problem140,
+  problem141,
+  problem142,
+  problem143,
+  problem144,
+  problem145,
+  problem146,
+  problem147,
 ];
