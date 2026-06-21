@@ -2,7 +2,7 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 45,
-  title: "1 から 10 までの合計を予想してください",
+  title: "range(1,11) は [1,2,...,9,10] のリストを作成します。sum はリスト要素の合計を計算します。出力を予想してください",
   type: 'predict-output',
   code: `print(sum(range(1, 11)))
 `,

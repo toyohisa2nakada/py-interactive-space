@@ -26,35 +26,22 @@ import problem085 from './problem085';
 import problem086 from './problem086';
 import problem091 from './problem091';
 import problem092 from './problem092';
+import problem016 from './problem016';
+import problem030 from './problem030';
+import problem074 from './problem074';
+import problem031 from './problem031';
+import problem136 from './problem136';
+import problem137 from './problem137';
+import problem138 from './problem138';
+import problem056 from './problem056';
 
 // セット5（中上級：関数・多テスト）
 export const problemSet05: Problem[] = [
-  // for range
-  problem015,
-  // ここに問題追加
   
-  // sum
-  problem025,
-  // ここにも追加
-  
-  // strip (trim)
-  problem040,
-  problem129,
-  problem130,
-
-  // sorted
-  problem041,
-  problem131,
-  problem132,
-  problem133,
-  problem134,
-  problem135,
-
   // dict ({name:string, age:number})
   problem042,
   problem043,
   problem044,
-  problem045,
   problem046,
   problem047,
   problem048,
@@ -67,4 +54,34 @@ export const problemSet05: Problem[] = [
   problem086,
   problem091,
   problem092,
+  
+  // for range
+  problem015,
+  problem016,
+  problem030,
+  problem074,
+
+  // rangeの種類
+  problem031,
+  problem136,
+  problem137,
+  problem138,
+
+  // sum
+  problem025,
+  problem045,
+  problem056,
+
+  // strip (trim)
+  problem040,
+  problem129,
+  problem130,
+
+  // sorted
+  problem041,
+  problem131,
+  problem132,
+  problem133,
+  problem134,
+  problem135,
 ];
