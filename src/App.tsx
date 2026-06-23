@@ -445,6 +445,9 @@ export default function App() {
     if (problem.type === 'predict-output') {
       const correct = predictInput.trim() === problem.correctOutput.trim();
       setIsCorrect(correct);
+      if (correct === false) {
+        setWrongCat(CATS[Math.floor(Math.random() * CATS.length)])
+      }
       const rec = loadRecord(problem.id);
       if (correct) rec.correctCount++; else rec.incorrectCount++;
       rec.lastAnswer = predictInput;
@@ -494,6 +497,10 @@ export default function App() {
       setPyStatus('ready');
     }
   }, [problem, predictInput, pyStatus, triggerScore]);
+
+  // 配列の要素を1つランダムに選ぶ
+  const CATS = ["🐱", "😸", "😹", "😼", "😽", "😾", "😿", "🙀"];
+  const [wrongCat, setWrongCat] = useState<string>('');
 
   // ─── UI ───────────────────────────────────────────────────
   return (
@@ -813,7 +820,7 @@ export default function App() {
                   </button>
                 )}
                 {isCorrect === true && <span className="text-green-600 font-extrabold text-2xl animate-bounce">🎉 正解！</span>}
-                {isCorrect === false && <span className="text-red-500   font-extrabold text-xl">❌ 残念、違います。</span>}
+                {isCorrect === false && <span className="text-slate-500 font-extrabold text-xl">{wrongCat} 残念、違います。</span>}
               </div>
             </div>
 
