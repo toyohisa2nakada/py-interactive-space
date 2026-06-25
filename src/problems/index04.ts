@@ -1,7 +1,5 @@
 import type { Problem } from './types';
-import problem013 from './problem013';
 import problem019 from './problem019';
-import problem025 from './problem025';
 import problem030 from './problem030';
 import problem031 from './problem031';
 import problem032 from './problem032';
@@ -36,6 +34,8 @@ import problem125 from './problem125';
 import problem126 from './problem126';
 import problem127 from './problem127';
 import problem128 from './problem128';
+import problem148 from './problem148';
+import problem149 from './problem149';
 
 // セット4（中級：文字列・内包表記・関数）
 export const problemSet04: Problem[] = [
@@ -43,12 +43,12 @@ export const problemSet04: Problem[] = [
   problem021,
   // 文字列を大文字変換するプログラムを完成 (fill-in)
   problem073,
-  // if/elseの基本、出力予想 (predict-output)
-  problem013,
+  // x>=5なら「5以上」、それ以外「5未満」のif/else、出力予想 (predict-output)
+  problem148,
   // whileループで1〜3を表示、出力予想 (predict-output)
   problem019,
-  // sum()でリストの合計、出力予想 (predict-output)
-  problem025,
+  // sum([0,1,-1,2,-2])でリストの合計、出力予想 (predict-output)
+  problem149,
   // forループでi*iを表示、出力予想 (predict-output)
   problem030,
   // range(1,10,2)の出力予想 (predict-output)

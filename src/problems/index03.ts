@@ -29,6 +29,11 @@ import problem069 from './problem069';
 import problem070 from './problem070';
 import problem071 from './problem071';
 import problem072 from './problem072';
+import problem150 from './problem150';
+import problem151 from './problem151';
+import problem152 from './problem152';
+import problem153 from './problem153';
+import problem154 from './problem154';
 
 // セット3（初中級：ループ応用・リスト）
 export const problemSet03: Problem[] = [
@@ -86,10 +91,21 @@ export const problemSet03: Problem[] = [
   problem069,
   // 1から5まで表示するwhileループを完成 (fill-in)
   problem070,
+
+  // groupリストの要素を順に表示、出力予想 (predict-output)
+  problem150,
   // fruitsリストの要素を順に表示するプログラムを完成 (fill-in)
   problem071,
   // appendでリストに要素を追加、結果を予想 (predict-output)
   problem026,
   // リストに4を追加して表示するプログラムを完成 (fill-in)
   problem072,
+  // for [0,1,2,3]の要素を順に表示、出力予想 (predict-output)
+  problem151,
+  // forループ内のifでn<2のときだけ表示、出力予想 (predict-output)
+  problem152,
+  // forループ内のifでnが偶数のときだけ表示、出力予想 (predict-output)
+  problem153,
+  // 出力が1,3になるようif文の条件を穴埋め (fill-in)
+  problem154,
 ];
