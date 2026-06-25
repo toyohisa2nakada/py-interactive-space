@@ -46,63 +46,92 @@ import problem147 from './problem147';
 
 // セット5（中上級：関数・多テスト）
 export const problemSet05: Problem[] = [
-  
-
-  // join
+  // リストの単語をスペースで結合した結果を予想 (predict-output)
   problem043,
+  // -7の絶対値を予想 (predict-output)
   problem044,
+  // ネストしたループ＋ifで表示される数を予想 (predict-output)
   problem046,
+  // リストに2が何個含まれているか予想 (predict-output)
   problem047,
+  // 文字列に「World」が含まれているか確認、結果を予想 (predict-output)
   problem048,
+  // リスト内包表記で二乗のリスト、出力予想 (predict-output)
   problem049,
+  // リストの中で一番小さい数を予想 (predict-output)
   problem050,
+  // add(a,b) — 2数の合計を返す関数を完成 (fill-in)
   problem082,
+  // is_even(n) — 偶数判定(True/False)を返す関数を完成 (fill-in)
   problem083,
+  // is_positive(n) — 正の数判定(True/False)を返す関数を完成 (fill-in)
   problem084,
+  // max_of_two(a,b) — 2数の大きい方を返す関数を完成 (fill-in)
   problem085,
+  // greet(name) — 「こんにちは、〇〇！」と表示する関数を完成 (fill-in)
   problem086,
+  // 1から5まで順に表示するプログラムを書く (fill-in)
   problem091,
+  // 2から10までの偶数を表示するプログラムを書く (fill-in)
   problem092,
-  
-  // for range
+  // range(n)は0からn-1までの数字、出力予想 (predict-output)
   problem015,
+  // forループで1〜3の合計を求める、結果予想 (predict-output)
   problem016,
+  // forループでi*iを表示、出力予想 (predict-output)
   problem030,
+  // forループで二乗の合計を計算、穴埋め (fill-in)
   problem074,
-
-  // rangeの種類
+  // range(1,10,2)の出力予想 (predict-output)
   problem031,
+  // 1,4,7と表示するプログラムを完成 (fill-in)
   problem136,
+  // 1,3,5,7と表示するプログラムを完成 (fill-in)
   problem137,
+  // 5,7,9と表示するプログラムを完成 (fill-in)
   problem138,
-
-  // sum
+  // sum()でリストの合計、出力予想 (predict-output)
   problem025,
+  // range(1,11)の合計、出力予想 (predict-output)
   problem045,
+  // リストの合計が15になるよう数字を穴埋め (fill-in)
   problem056,
-
-  // strip (trim)
+  // stripで前後の空白を取り除く、出力予想 (predict-output)
   problem040,
+  // stripで前後の空白を取り除く、出力予想 (predict-output)
   problem129,
+  // 前後の空白を取り除くメソッドを穴埋め (fill-in)
   problem130,
-
-  // sorted
+  // sorted()で昇順に並べ替え、出力予想 (predict-output)
   problem041,
+  // sorted(reverse=True)で降順に並べ替え、出力予想 (predict-output)
   problem131,
+  // 降順にするためreverse=の値を穴埋め (fill-in)
   problem132,
+  // numsを昇順に並べ替えて表示するプログラムを完成 (fill-in)
   problem133,
+  // 2番目に小さい数字を求めるプログラムを完成 (fill-in)
   problem134,
+  // sorted()に文字列を渡したときの結果を予想 (predict-output)
   problem135,
-
-  // dict ({name:string, age:number})
+  // 辞書からnameの値を取り出した結果を予想 (predict-output)
   problem042,
+  // 辞書からageの値を取り出した結果を予想 (predict-output)
   problem139,
+  // 辞書からpriceの値を出力するプログラムを完成 (fill-in)
   problem140,
+  // 辞書に新しいキーを追加した結果を予想 (predict-output)
   problem141,
+  // 辞書の既存のキーの値を上書きした結果を予想 (predict-output)
   problem142,
+  // 上書き前後で値がどう変わるか出力予想 (predict-output)
   problem143,
+  // inで辞書にキーが存在するか確認、結果予想 (predict-output)
   problem144,
+  // delでキーを削除後、inで確認した結果を予想 (predict-output)
   problem145,
+  // items()で辞書のキーと値を順に取り出す、出力予想 (predict-output)
   problem146,
+  // items()とf文字列で辞書のキーと値を表示、出力予想 (predict-output)
   problem147,
 ];

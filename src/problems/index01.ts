@@ -32,34 +32,64 @@ import problem064 from './problem064';
 
 // set1
 export const problemSet01: Problem[] = [
+  // print(3)の出力を予想 (predict-output)
   problem001,
+  // print("a")の出力を予想 (predict-output)
   problem002,
+  // 変数xに代入された値を予想 (predict-output)
   problem003,
+  // 変数nameに代入された文字列を予想 (predict-output)
   problem004,
+  // a+bの出力を予想 (predict-output)
   problem005,
+  // aとbの引き算の結果を予想 (predict-output)
   problem006,
+  // aとbのかけ算の結果を予想 (predict-output)
   problem007,
+  // aをbで切り捨て除算した結果を予想 (predict-output)
   problem008,
+  // 2の10乗の結果を予想 (predict-output)
   problem009,
+  // 文字列「Ha」を3回繰り返した結果を予想 (predict-output)
   problem010,
+  // 文字列「Python」の文字数を予想 (predict-output)
   problem011,
+  // 3つの文字列をつなげた結果を予想 (predict-output)
   problem012,
+  // "hello".upper()の結果を予想 (predict-output)
   problem021,
+  // int("42")の出力予想 (predict-output)
   problem034,
+  // -7の絶対値を予想 (predict-output)
   problem044,
+  // xに10を代入して表示するプログラムを完成 (fill-in)
   problem051,
+  // a+bが8になるようaの値を穴埋め (fill-in)
   problem052,
+  // nameに「太郎」を代入して挨拶を表示するプログラムを完成 (fill-in)
   problem053,
+  // aとbの合計を計算して表示するプログラムを完成 (fill-in)
   problem054,
+  // %で余り計算、出力予想 (predict-output)
   problem035,
+  // aをbで割った余りを計算して表示するプログラムを完成 (fill-in)
   problem055,
+  // リストの合計が15になるよう数字を穴埋め (fill-in)
   problem056,
+  // maxでリストの中で一番大きい数を返す、出力予想 (predict-output)
   problem024,
+  // リストの最大値を求めて表示するプログラムを完成 (fill-in)
   problem059,
+  // リストの中で一番小さい数を予想 (predict-output)
   problem050,
+  // リストの最小値を求めて表示するプログラムを完成 (fill-in)
   problem060,
+  // sum()でリストの合計、出力予想 (predict-output)
   problem025,
+  // リストの合計を求めて表示するプログラムを完成 (fill-in)
   problem062,
+  // 文字列の長さを求めて表示するプログラムを完成 (fill-in)
   problem063,
+  // a×bが36になるようaの値を穴埋め (fill-in)
   problem064,
 ];
