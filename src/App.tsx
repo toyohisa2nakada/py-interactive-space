@@ -20,6 +20,18 @@ const ALL_SETS = [
   problemSet01, problemSet02, problemSet03,
   problemSet04, problemSet05, problemSet06,
 ];
+// 公開済みのセットだけここに書く。値は連想配列のキー(=URLのslug)→ALL_SETSの添字
+// slugはランダムな文字列なので、AのURLからBのURLは推測できない
+const SLUG_TO_INDEX: Record<string, number> = {
+  'qz7k2m': 0, // テストセット
+  'h9d4xr': 1, // セット1
+  'f3p6vc': 2, // セット2
+  'r8n1wj': 3, // セット3
+  'k5t9bq': 4, // セット4
+  'm2y7gl': 5, // セット5
+  'x4c8sd': 6, // セット6
+};
+
 const SET_LABELS = ['セット0', 'セット1', 'セット2', 'セット3', 'セット4', 'セット5', 'セット6'];
 const SET_DESCRIPTIONS = [
   'テストセット',
@@ -31,22 +43,26 @@ const SET_DESCRIPTIONS = [
   '上級：全文作成・応用',
 ];
 
+/** ?set=slug を ALL_SETS の添字に変換する。SLUG_TO_INDEX に登録済みのものしか許可しない */
+function resolveSetIndex(s: string): number | null {
+  if (s in SLUG_TO_INDEX) return SLUG_TO_INDEX[s];
+  return null;
+}
+
 function getInitialSetIndex(): number {
   const s = new URLSearchParams(window.location.search).get('set');
   if (s) {
-    const n = parseInt(s, 10);
-    // ?set=N → ALL_SETS[N] を直接使う（0=テスト, 1=セット1, ...）
-    if (!isNaN(n) && n >= 0 && n < ALL_SETS.length) return n;
+    const idx = resolveSetIndex(s);
+    if (idx !== null) return idx;
   }
-  return 0; // パラメータなし = 教師モード、デフォルトは番号最小のセット
+  return 0; // パラメータなし／該当なし = 教師モード、デフォルトは番号最小のセット
 }
 
-/** URL の ?set=N の N をそのまま返す。パラメータなしなら null */
+/** URL の ?set=N／?set=slug を ALL_SETS の添字に変換した値。パラメータなし／該当なしなら null */
 const URL_SET_NUMBER: number | null = (() => {
   const s = new URLSearchParams(window.location.search).get('set');
   if (!s) return null;
-  const n = parseInt(s, 10);
-  return isNaN(n) ? null : n;
+  return resolveSetIndex(s);
 })();
 
 // ─── LocalStorage ─────────────────────────────────────────────
