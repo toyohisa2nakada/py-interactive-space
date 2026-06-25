@@ -34,6 +34,8 @@ import problem151 from './problem151';
 import problem152 from './problem152';
 import problem153 from './problem153';
 import problem154 from './problem154';
+import problem016 from './problem016';
+import problem019 from './problem019';
 
 // セット3（初中級：ループ応用・リスト）
 export const problemSet03: Problem[] = [
@@ -87,8 +89,13 @@ export const problemSet03: Problem[] = [
   problem062,
   // 文字列の長さを求めて表示するプログラムを完成 (fill-in)
   problem063,
+  // forループで1〜3の合計を求める、結果予想 (predict-output)
+  problem016,
   // 1から5の合計を求めるプログラムを完成 (fill-in)
   problem069,
+  
+  // whileループで1〜3を表示、出力予想 (predict-output)
+  problem019,
   // 1から5まで表示するwhileループを完成 (fill-in)
   problem070,
 

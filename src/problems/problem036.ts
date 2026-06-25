@@ -2,7 +2,7 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 36,
-  title: "1〜4 をすべてかけ合わせた結果を予想してください",
+  title: "result *= i は、resultの数値にiをかけます。例えばresultが2でiが3なら resultは6になります",
   type: 'predict-output',
   code: `result = 1
 for i in range(1, 5):

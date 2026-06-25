@@ -36,6 +36,7 @@ import problem127 from './problem127';
 import problem128 from './problem128';
 import problem148 from './problem148';
 import problem149 from './problem149';
+import problem155 from './problem155';
 
 // セット4（中級：文字列・内包表記・関数）
 export const problemSet04: Problem[] = [
@@ -77,10 +78,11 @@ export const problemSet04: Problem[] = [
   problem049,
   // リスト内包表記で2〜6のリストを穴埋め (fill-in)
   problem076,
-  // f文字列の組み立てを穴埋め("Aliceは25歳です") (fill-in)
-  problem077,
+
   // f文字列の基本、出力予想 (predict-output)
   problem038,
+  // f文字列の組み立てを穴埋め("Aliceは25歳です") (fill-in)
+  problem077,
   // f文字列（商品名と価格）、出力予想 (predict-output)
   problem119,
   // f文字列内で計算、出力予想 (predict-output)
@@ -93,6 +95,9 @@ export const problemSet04: Problem[] = [
   problem103,
   // enumerateでインデックス付き表示、出力予想 (predict-output)
   problem039,
+
+  // forループでtotal += i + 1の合計を求める、出力予想 (predict-output)
+  problem155,
   // forループで二乗の合計を計算、穴埋め (fill-in)
   problem074,
   // double(n) — 引数の2倍を返す関数、出力予想 (predict-output)
