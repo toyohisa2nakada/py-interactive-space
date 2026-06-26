@@ -17,7 +17,7 @@ import problem045 from './problem045';
 import problem046 from './problem046';
 import problem047 from './problem047';
 import problem048 from './problem048';
-import problem049 from './problem049';
+import problem168 from './problem168';
 import problem050 from './problem050';
 import problem082 from './problem082';
 import problem083 from './problem083';
@@ -27,9 +27,9 @@ import problem086 from './problem086';
 import problem091 from './problem091';
 import problem092 from './problem092';
 import problem016 from './problem016';
-import problem030 from './problem030';
-import problem074 from './problem074';
-import problem031 from './problem031';
+import problem166 from './problem166';
+import problem169 from './problem169';
+import problem167 from './problem167';
 import problem136 from './problem136';
 import problem137 from './problem137';
 import problem138 from './problem138';
@@ -56,8 +56,8 @@ export const problemSet05: Problem[] = [
   problem047,
   // 文字列に「World」が含まれているか確認、結果を予想 (predict-output)
   problem048,
-  // リスト内包表記で二乗のリスト、出力予想 (predict-output)
-  problem049,
+  // リスト内包表記で二乗のリスト(変数名sq版)、出力予想 (predict-output)
+  problem168,
   // リストの中で一番小さい数を予想 (predict-output)
   problem050,
   // add(a,b) — 2数の合計を返す関数を完成 (fill-in)
@@ -78,12 +78,12 @@ export const problemSet05: Problem[] = [
   problem015,
   // forループで1〜3の合計を求める、結果予想 (predict-output)
   problem016,
-  // forループでi*iを表示、出力予想 (predict-output)
-  problem030,
-  // forループで二乗の合計を計算、穴埋め (fill-in)
-  problem074,
-  // range(1,10,2)の出力予想 (predict-output)
-  problem031,
+  // forループでi*10を表示、出力予想 (predict-output)
+  problem166,
+  // 2から4の二乗の合計を計算、穴埋め (fill-in)
+  problem169,
+  // range(1,10,2)の出力予想(変数名n版) (predict-output)
+  problem167,
   // 1,4,7と表示するプログラムを完成 (fill-in)
   problem136,
   // 1,3,5,7と表示するプログラムを完成 (fill-in)

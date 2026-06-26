@@ -4,9 +4,9 @@ import problem013 from './problem013';
 import problem051 from './problem051';
 import problem075 from './problem075';
 import problem078 from './problem078';
-import problem046 from './problem046';
 import problem049 from './problem049';
-import problem050 from './problem050';
+import problem170 from './problem170';
+import problem171 from './problem171';
 import problem087 from './problem087';
 import problem088 from './problem088';
 import problem089 from './problem089';
@@ -32,12 +32,12 @@ export const problemSet06: Problem[] = [
   problem075,
   // 合計が10を超えるまで足し続けるプログラムを完成 (fill-in)
   problem078,
-  // ネストしたループ＋ifで表示される数を予想 (predict-output)
-  problem046,
+  // ネストしたループ＋if(i!=j版)で表示される数を予想 (predict-output)
+  problem170,
   // リスト内包表記で二乗のリスト、出力予想 (predict-output)
   problem049,
-  // リストの中で一番小さい数を予想 (predict-output)
-  problem050,
+  // リストの中で一番小さい数を予想(負の数版) (predict-output)
+  problem171,
   // celsius_to_fahrenheit(c) — 摂氏を華氏に変換する関数を完成 (fill-in)
   problem087,
   // repeat_str(s,n) — 文字列をn回繰り返す関数を完成 (fill-in)

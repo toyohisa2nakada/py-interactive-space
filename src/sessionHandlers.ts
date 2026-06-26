@@ -45,18 +45,27 @@ export function onSessionStart(
   post({ setNumber, setPosition: -1, problemId: -1, correct: '', studentId, studentName, total: "ログイン" })
 }
 
-function post(postData: any) {
+async function post(postData: any) {
   const gasURL = "https://script.google.com/macros/s/AKfycbxS8cikAV_Sbt-Zd65bvyHYqmV8DwUgl_8Vc1Rcct171Dk8TPhurZhZ6_s75dYN1JfYiA/exec";
 
   console.log("postData", postData);
-  fetch(gasURL, {
-    method: "POST",
-    mode: "no-cors",
-    headers: { "Content-Type": "text/plain" },
-    body: JSON.stringify(postData)
-  }).then(() => {
-    console.log("送信完了！スプレッドシートを確認してください。");
-  }).catch(err => {
-    console.error("エラー:", err);
-  });
+
+  const maxRetries = 2;
+  const delay = 100;
+
+  for (let i = 0; i < maxRetries; i += 1) {
+    try {
+      await fetch(gasURL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain" },
+        body: JSON.stringify(postData)
+      });
+      console.log("送信完了！スプレッドシートを確認してください。");
+      return;
+    } catch (err) {
+      console.error(`エラー (試行 ${i + 1}回目):`, err);
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+  }
 }
