@@ -1,5 +1,5 @@
 import type { Problem } from './types';
-import problem019 from './problem019';
+import problem156 from './problem156';
 import problem030 from './problem030';
 import problem031 from './problem031';
 import problem032 from './problem032';
@@ -46,8 +46,8 @@ export const problemSet04: Problem[] = [
   problem073,
   // x>=5なら「5以上」、それ以外「5未満」のif/else、出力予想 (predict-output)
   problem148,
-  // whileループで1〜3を表示、出力予想 (predict-output)
-  problem019,
+  // whileループで1〜5を表示、出力予想 (predict-output)
+  problem156,
   // sum([0,1,-1,2,-2])でリストの合計、出力予想 (predict-output)
   problem149,
   // forループでi*iを表示、出力予想 (predict-output)
