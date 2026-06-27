@@ -26,6 +26,8 @@ import problem162 from './problem162';
 import problem163 from './problem163';
 import problem164 from './problem164';
 import problem165 from './problem165';
+import problem172 from './problem172';
+import problem173 from './problem173';
 
 // セット2（入門：if・forループ基礎）
 export const problemSet02: Problem[] = [
@@ -51,8 +53,12 @@ export const problemSet02: Problem[] = [
   problem160,
   // リストの2番目の要素を予想(nums=[4,5,6]版) (predict-output)
   problem161,
+  // nums[1]のインデックス部分を穴埋め (fill-in)
+  problem172,
   // リストの最後の要素を予想 (predict-output)
   problem101,
+  // nums[-1]のインデックス部分を穴埋め (fill-in)
+  problem173,
   // リストの最初の要素を予想 (predict-output)
   problem102,
   // リストの最初の要素を表示するプログラムを完成(orange版) (fill-in)

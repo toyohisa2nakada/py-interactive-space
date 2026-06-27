@@ -5,7 +5,7 @@ const problem: Problem = {
   title: "リストの最初の要素を表示するプログラムを完成させてください",
   type: 'fill-in',
   codeWithMarker: `fruits = ["orange", "banana", "cherry"]
-print(fruits[§§])
+print(fruits[§§§])
 `,
   correctOutput: "orange",
   requiredTokens: ['0'],

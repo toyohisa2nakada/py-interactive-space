@@ -6,7 +6,6 @@ const problem: Problem = {
   type: 'fill-in',
   codeWithMarker: `a = 4
 b = 7
-# a と b の合計を計算して表示してください
 print(§§§§§)
 `,
   correctOutput: "11",

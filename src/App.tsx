@@ -745,33 +745,21 @@ export default function App() {
 
             {/* ナビゲーション */}
             <div className="flex items-center justify-between flex-shrink-0">
-              <button
-                onClick={() => navigateTo(currentIndex - 1)}
-                disabled={currentIndex === 0}
-                className="flex items-center gap-1 px-5 py-2.5 rounded-xl border border-slate-300 text-sm font-medium bg-white hover:bg-slate-50 disabled:opacity-25 disabled:cursor-not-allowed transition-colors shadow-sm"
-              >
-                ← 前の問題
-              </button>
-              <div className="flex flex-col items-center gap-0.5">
+            </div>
+
+            {/* タイトル */}
+            <div className="flex items-center justify-start gap-2 flex-shrink-0">
+              <div className="flex flex-col items-center gap-0">
                 <span className="text-base font-bold text-slate-700">
                   {currentIndex + 1}
                   <span className="font-normal text-slate-400"> / {currentSet.length}</span>
                 </span>
-                <span className="text-xs text-slate-400">問題 No.{problem.id}</span>
+                <span className="text-[10px] text-slate-400">問題 No.{problem.id}</span>
               </div>
-              <button
-                onClick={() => navigateTo(currentIndex + 1)}
-                disabled={currentIndex === currentSet.length - 1 || !answeredSet.has(answerKey)}
-                className="flex items-center gap-1 px-5 py-2.5 rounded-xl border border-slate-300 text-sm font-medium bg-white hover:bg-slate-50 disabled:opacity-25 disabled:cursor-not-allowed transition-colors shadow-sm"
-              >
-                次の問題 →
-              </button>
+              <h1 className="text-base font-bold text-slate-800 leading-snug">
+                {problem.title}
+              </h1>
             </div>
-
-            {/* タイトル */}
-            <h1 className="text-xl font-bold text-slate-800 flex-shrink-0 leading-snug">
-              {problem.title}
-            </h1>
 
             {/* エディタ ＋ 出力欄（同じ flex-1 ブロックに収め、ボタンを押し出さない） */}
             <div className="flex-1 min-h-0 flex flex-col gap-2">
@@ -837,6 +825,22 @@ export default function App() {
                 )}
                 {isCorrect === true && <span className="text-green-600 font-extrabold text-2xl animate-bounce">🎉 正解！</span>}
                 {isCorrect === false && <span className="text-slate-500 font-extrabold text-xl">{wrongCat} 残念、違います。</span>}
+
+                <button
+                  onClick={() => navigateTo(currentIndex - 1)}
+                  disabled={currentIndex === 0}
+                  className="flex items-center gap-1 px-5 py-2.5 rounded-xl border border-slate-300 text-sm font-medium bg-white hover:bg-slate-50 disabled:opacity-25 disabled:cursor-not-allowed transition-colors shadow-sm"
+                >
+                  ← 前の問題
+                </button>
+                <button
+                  onClick={() => navigateTo(currentIndex + 1)}
+                  disabled={currentIndex === currentSet.length - 1 || !answeredSet.has(answerKey)}
+                  className="flex items-center gap-1 px-5 py-2.5 rounded-xl border border-slate-300 text-sm font-medium bg-white hover:bg-slate-50 disabled:opacity-25 disabled:cursor-not-allowed transition-colors shadow-sm"
+                >
+                  次の問題 →
+                </button>
+
               </div>
             </div>
 

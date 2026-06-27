@@ -2,7 +2,7 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 9,
-  title: "2 の 10 乗の結果を予想してください",
+  title: "n ** p は、nのp乗を計算します。出力を予想してください",
   type: 'predict-output',
   code: `print(2 ** 10)
 `,
