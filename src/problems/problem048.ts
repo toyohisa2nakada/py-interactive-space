@@ -2,7 +2,7 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 48,
-  title: "文字列に「World」が含まれているか確認します。結果を予想してください",
+  title: "a in list は、a が list に含まれているか判定します。出力は True または Falseとなります。結果を予想してください",
   type: 'predict-output',
   code: `s = "Hello, World!"
 print("World" in s)

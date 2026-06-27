@@ -20,8 +20,41 @@ import problem098 from './problem098';
 import problem099 from './problem099';
 import problem100 from './problem100';
 
+import problem042 from './problem042';
+import problem139 from './problem139';
+import problem140 from './problem140';
+import problem141 from './problem141';
+import problem142 from './problem142';
+import problem143 from './problem143';
+import problem144 from './problem144';
+import problem145 from './problem145';
+import problem146 from './problem146';
+import problem147 from './problem147';
+
 // セット6（上級：全文作成・応用関数）
 export const problemSet06: Problem[] = [
+  // 辞書からnameの値を取り出した結果を予想 (predict-output)
+  problem042,
+  // 辞書からageの値を取り出した結果を予想 (predict-output)
+  problem139,
+  // 辞書からpriceの値を出力するプログラムを完成 (fill-in)
+  problem140,
+  // 辞書に新しいキーを追加した結果を予想 (predict-output)
+  problem141,
+  // 辞書の既存のキーの値を上書きした結果を予想 (predict-output)
+  problem142,
+  // 上書き前後で値がどう変わるか出力予想 (predict-output)
+  problem143,
+  // inで辞書にキーが存在するか確認、結果予想 (predict-output)
+  problem144,
+  // delでキーを削除後、inで確認した結果を予想 (predict-output)
+  problem145,
+  // items()で辞書のキーと値を順に取り出す、出力予想 (predict-output)
+  problem146,
+  // items()とf文字列で辞書のキーと値を表示、出力予想 (predict-output)
+  problem147,
+
+
   // 変数xに代入された値を予想 (predict-output)
   problem003,
   // if/elseの基本、出力予想 (predict-output)
@@ -62,4 +95,6 @@ export const problemSet06: Problem[] = [
   problem099,
   // fizzbuzz(n) — FizzBuzzを判定する関数を作る (fill-in)
   problem100,
+
+
 ];

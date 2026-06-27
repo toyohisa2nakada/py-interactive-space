@@ -10,7 +10,6 @@ import problem132 from './problem132';
 import problem133 from './problem133';
 import problem134 from './problem134';
 import problem135 from './problem135';
-import problem042 from './problem042';
 import problem043 from './problem043';
 import problem044 from './problem044';
 import problem045 from './problem045';
@@ -34,15 +33,15 @@ import problem136 from './problem136';
 import problem137 from './problem137';
 import problem138 from './problem138';
 import problem056 from './problem056';
-import problem139 from './problem139';
-import problem140 from './problem140';
-import problem141 from './problem141';
-import problem142 from './problem142';
-import problem143 from './problem143';
-import problem144 from './problem144';
-import problem145 from './problem145';
-import problem146 from './problem146';
-import problem147 from './problem147';
+import problem174 from './problem174';
+import problem175 from './problem175';
+import problem176 from './problem176';
+import problem177 from './problem177';
+import problem023 from './problem023';
+import problem154 from './problem154';
+import problem178 from './problem178';
+import problem179 from './problem179';
+
 
 // セット5（中上級：関数・多テスト）
 export const problemSet05: Problem[] = [
@@ -50,58 +49,60 @@ export const problemSet05: Problem[] = [
   problem043,
   // -7の絶対値を予想 (predict-output)
   problem044,
-  // ネストしたループ＋ifで表示される数を予想 (predict-output)
-  problem046,
   // リストに2が何個含まれているか予想 (predict-output)
   problem047,
   // 文字列に「World」が含まれているか確認、結果を予想 (predict-output)
   problem048,
+
   // リスト内包表記で二乗のリスト(変数名sq版)、出力予想 (predict-output)
   problem168,
   // リストの中で一番小さい数を予想 (predict-output)
   problem050,
-  // add(a,b) — 2数の合計を返す関数を完成 (fill-in)
-  problem082,
-  // is_even(n) — 偶数判定(True/False)を返す関数を完成 (fill-in)
-  problem083,
-  // is_positive(n) — 正の数判定(True/False)を返す関数を完成 (fill-in)
-  problem084,
-  // max_of_two(a,b) — 2数の大きい方を返す関数を完成 (fill-in)
-  problem085,
-  // greet(name) — 「こんにちは、〇〇！」と表示する関数を完成 (fill-in)
-  problem086,
-  // 1から5まで順に表示するプログラムを書く (fill-in)
-  problem091,
-  // 2から10までの偶数を表示するプログラムを書く (fill-in)
-  problem092,
-  // range(n)は0からn-1までの数字、出力予想 (predict-output)
-  problem015,
-  // forループで1〜3の合計を求める、結果予想 (predict-output)
-  problem016,
-  // forループでi*10を表示、出力予想 (predict-output)
-  problem166,
-  // 2から4の二乗の合計を計算、穴埋め (fill-in)
-  problem169,
-  // range(1,10,2)の出力予想(変数名n版) (predict-output)
-  problem167,
-  // 1,4,7と表示するプログラムを完成 (fill-in)
-  problem136,
-  // 1,3,5,7と表示するプログラムを完成 (fill-in)
-  problem137,
-  // 5,7,9と表示するプログラムを完成 (fill-in)
-  problem138,
   // sum()でリストの合計、出力予想 (predict-output)
   problem025,
-  // range(1,11)の合計、出力予想 (predict-output)
-  problem045,
-  // リストの合計が15になるよう数字を穴埋め (fill-in)
-  problem056,
+
   // stripで前後の空白を取り除く、出力予想 (predict-output)
   problem040,
   // stripで前後の空白を取り除く、出力予想 (predict-output)
   problem129,
   // 前後の空白を取り除くメソッドを穴埋め (fill-in)
   problem130,
+
+  // range(n)は0からn-1までの数字、出力予想 (predict-output)
+  problem015,
+  // 1から5まで順に表示するプログラムを書く (fill-in)
+  problem091,
+
+  // range(1,10,2)の出力予想(変数名n版) (predict-output)
+  problem167,
+
+  // forループで1〜3の合計を求める、結果予想 (predict-output)
+  problem016,
+  // forループでi*10を表示、出力予想 (predict-output)
+  problem166,
+  // 2から4の二乗の合計を計算、穴埋め (fill-in)
+  problem169,
+
+  // 1,4,7と表示するプログラムを完成 (fill-in)
+  problem136,
+  // 1,3,5,7と表示するプログラムを完成 (fill-in)
+  problem137,
+  // 5,7,9と表示するプログラムを完成 (fill-in)
+  problem138,
+
+  // range(1,11)の合計、出力予想 (predict-output)
+  problem045,
+  // リストの合計が15になるよう数字を穴埋め (fill-in)
+  problem056,
+
+  // forループ内のifで偶数だけ表示、出力予想 (predict-output)
+  problem023,
+  // 出力が1,3になるようif文の条件を穴埋め (fill-in)
+  problem154,
+  // 2から10までの偶数を表示するプログラムを書く (fill-in)
+  problem092,
+
+
   // sorted()で昇順に並べ替え、出力予想 (predict-output)
   problem041,
   // sorted(reverse=True)で降順に並べ替え、出力予想 (predict-output)
@@ -114,24 +115,33 @@ export const problemSet05: Problem[] = [
   problem134,
   // sorted()に文字列を渡したときの結果を予想 (predict-output)
   problem135,
-  // 辞書からnameの値を取り出した結果を予想 (predict-output)
-  problem042,
-  // 辞書からageの値を取り出した結果を予想 (predict-output)
-  problem139,
-  // 辞書からpriceの値を出力するプログラムを完成 (fill-in)
-  problem140,
-  // 辞書に新しいキーを追加した結果を予想 (predict-output)
-  problem141,
-  // 辞書の既存のキーの値を上書きした結果を予想 (predict-output)
-  problem142,
-  // 上書き前後で値がどう変わるか出力予想 (predict-output)
-  problem143,
-  // inで辞書にキーが存在するか確認、結果予想 (predict-output)
-  problem144,
-  // delでキーを削除後、inで確認した結果を予想 (predict-output)
-  problem145,
-  // items()で辞書のキーと値を順に取り出す、出力予想 (predict-output)
-  problem146,
-  // items()とf文字列で辞書のキーと値を表示、出力予想 (predict-output)
-  problem147,
+  
+  
+
+  // minus(a,b) — 引数の引き算を返す関数、出力予想 (predict-output)
+  problem178,
+  // add(a,b) — 2数の合計を返す関数を完成 (fill-in)
+  problem082,
+  // is_late(minutes) — 20分超ならTrue、以内ならFalseを返す関数、出力予想 (predict-output)
+  problem179,
+  // is_even(n) — 偶数判定(True/False)を返す関数を完成 (fill-in)
+  problem083,
+  // is_positive(n) — 正の数判定(True/False)を返す関数を完成 (fill-in)
+  problem084,
+  // max_of_two(a,b) — 2数の大きい方を返す関数を完成 (fill-in)
+  problem085,
+  // greet(name) — 「こんにちは、〇〇！」と表示する関数を完成 (fill-in)
+  problem086,
+
+  
+  // ネストしたループ(if無し、print(f"{i} {j}"))で表示される文字列を予想 (predict-output)
+  problem176,
+  // ネストしたループ(if無し、print(j))で表示される数を予想 (predict-output)
+  problem174,
+  // ネストしたループ(if無し、print(i))で表示される数を予想 (predict-output)
+  problem175,
+  // ネストしたループ(if無し、print(i*10+j))で表示される数を予想 (predict-output)
+  problem177,
+  // ネストしたループ＋ifで表示される数を予想 (predict-output)
+  problem046,
 ];
