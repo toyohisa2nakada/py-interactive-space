@@ -1,8 +1,8 @@
 import type { Problem } from './types';
-import problem013 from './problem013';
+import problem193 from './problem193';
 import problem075 from './problem075';
 import problem078 from './problem078';
-import problem049 from './problem049';
+import problem208 from './problem208';
 import problem170 from './problem170';
 import problem171 from './problem171';
 import problem087 from './problem087';
@@ -38,6 +38,7 @@ import problem186 from './problem186';
 import problem187 from './problem187';
 import problem188 from './problem188';
 import problem189 from './problem189';
+import problem207 from './problem207';
 
 // セット6（上級：全文作成・応用関数）
 export const problemSet06: Problem[] = [
@@ -63,8 +64,8 @@ export const problemSet06: Problem[] = [
   problem147,
 
 
-  // if/elseの基本、出力予想 (predict-output)
-  problem013,
+  // if/elseの基本、出力予想(コピー) (predict-output)
+  problem193,
   // if が2つ、1つだけ当てはまる、出力予想 (predict-output)
   problem180,
   // if が2つ、両方当てはまる、出力予想 (predict-output)
@@ -94,9 +95,10 @@ export const problemSet06: Problem[] = [
 
   // ネストしたループ＋if(i!=j版)で表示される数を予想 (predict-output)
   problem170,
-  
-  // リスト内包表記で二乗のリスト、出力予想 (predict-output)
-  problem049,
+  // ネストしたループ＋ifで表示される数を予想(コピー) (predict-output)
+  problem207,
+  // リスト内包表記で二乗のリスト、出力予想(コピー) (predict-output)
+  problem208,
   // リストの中で一番小さい数を予想(負の数版) (predict-output)
   problem171,
   // celsius_to_fahrenheit(c) — 摂氏を華氏に変換する関数を完成 (fill-in)

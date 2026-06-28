@@ -4,12 +4,12 @@ import problem030 from './problem030';
 import problem031 from './problem031';
 import problem032 from './problem032';
 import problem033 from './problem033';
-import problem034 from './problem034';
+import problem203 from './problem203';
 import problem115 from './problem115';
 import problem116 from './problem116';
 import problem117 from './problem117';
 import problem118 from './problem118';
-import problem035 from './problem035';
+import problem204 from './problem204';
 import problem036 from './problem036';
 import problem037 from './problem037';
 import problem049 from './problem049';
@@ -26,8 +26,8 @@ import problem077 from './problem077';
 import problem079 from './problem079';
 import problem080 from './problem080';
 import problem081 from './problem081';
-import problem103 from './problem103';
-import problem021 from './problem021';
+import problem217 from './problem217';
+import problem198 from './problem198';
 import problem123 from './problem123';
 import problem124 from './problem124';
 import problem125 from './problem125';
@@ -40,8 +40,8 @@ import problem155 from './problem155';
 
 // セット4（中級：文字列・内包表記・関数）
 export const problemSet04: Problem[] = [
-  // "hello".upper() の結果を予想 (predict-output)
-  problem021,
+  // "hello".upper() の結果を予想(コピー) (predict-output)
+  problem198,
   // 文字列を大文字変換するプログラムを完成 (fill-in)
   problem073,
   // x>=5なら「5以上」、それ以外「5未満」のif/else、出力予想 (predict-output)
@@ -58,8 +58,8 @@ export const problemSet04: Problem[] = [
   problem032,
   // sort()でリストを昇順に、出力予想 (predict-output)
   problem033,
-  // int("42")の出力予想 (predict-output)
-  problem034,
+  // int("42")の出力予想(コピー) (predict-output)
+  problem203,
   // 文字列同士の+連結("42"+"1")、出力予想 (predict-output)
   problem115,
   // 数値の+(42+1)、出力予想 (predict-output)
@@ -68,8 +68,8 @@ export const problemSet04: Problem[] = [
   problem117,
   // 出力が50になるよう数値を穴埋め (fill-in)
   problem118,
-  // %で余り計算、出力予想 (predict-output)
-  problem035,
+  // %で余り計算、出力予想(コピー) (predict-output)
+  problem204,
   // forループで階乗計算、出力予想 (predict-output)
   problem036,
   // リスト内包表記[x for x in range(5)]、出力予想 (predict-output)
@@ -91,8 +91,8 @@ export const problemSet04: Problem[] = [
   problem121,
   // f文字列の穴埋め（計算式の表示） (fill-in)
   problem122,
-  // forループでリストを順に表示、出力予想 (predict-output)
-  problem103,
+  // forループでリストを順に表示、出力予想(コピー) (predict-output)
+  problem217,
   // enumerateでインデックス付き表示、出力予想 (predict-output)
   problem039,
 

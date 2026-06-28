@@ -1,8 +1,8 @@
 import type { Problem } from './types';
-import problem003 from './problem003';
-import problem009 from './problem009';
-import problem051 from './problem051';
-import problem054 from './problem054';
+import problem190 from './problem190';
+import problem192 from './problem192';
+import problem210 from './problem210';
+import problem211 from './problem211';
 import problem014 from './problem014';
 import problem045 from './problem045';
 import problem101 from './problem101';
@@ -10,7 +10,7 @@ import problem102 from './problem102';
 import problem103 from './problem103';
 import problem018 from './problem018';
 import problem020 from './problem020';
-import problem021 from './problem021';
+import problem197 from './problem197';
 import problem105 from './problem105';
 import problem106 from './problem106';
 import problem058 from './problem058';
@@ -31,16 +31,16 @@ import problem173 from './problem173';
 
 // セット2（入門：if・forループ基礎）
 export const problemSet02: Problem[] = [
-  // 変数xに代入された値を予想 (predict-output)
-  problem003,
+  // 変数xに代入された値を予想(コピー) (predict-output)
+  problem190,
   // a+bの出力を予想(a=-8版)、結果予想 (predict-output)
   problem157,
-  // 2の10乗の結果を予想 (predict-output)
-  problem009,
-  // xに10を代入して表示するプログラムを完成 (fill-in)
-  problem051,
-  // aとbの合計を計算して表示するプログラムを完成 (fill-in)
-  problem054,
+  // 2の10乗の結果を予想(コピー) (predict-output)
+  problem192,
+  // xに10を代入して表示するプログラムを完成(コピー) (fill-in)
+  problem210,
+  // aとbの合計を計算して表示するプログラムを完成(コピー) (fill-in)
+  problem211,
   // if/elseの基本(x=-1版)、出力予想 (predict-output)
   problem158,
   // xが負の数のときif文が何を表示するか予想 (predict-output)
@@ -71,8 +71,8 @@ export const problemSet02: Problem[] = [
   problem162,
   // 文字列「Python」の最初の3文字を取り出した結果を予想 (predict-output)
   problem020,
-  // "hello".upper()の結果を予想 (predict-output)
-  problem021,
+  // "hello".upper()の結果を予想(コピー) (predict-output)
+  problem197,
   // forループで0〜3を表示、出力予想 (predict-output)
   problem105,
   // 0から4まで順に表示するプログラムを完成(value版) (fill-in)

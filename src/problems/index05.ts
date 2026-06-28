@@ -1,6 +1,6 @@
 import type { Problem } from './types';
-import problem015 from './problem015';
-import problem025 from './problem025';
+import problem195 from './problem195';
+import problem202 from './problem202';
 import problem040 from './problem040';
 import problem129 from './problem129';
 import problem130 from './problem130';
@@ -11,13 +11,13 @@ import problem133 from './problem133';
 import problem134 from './problem134';
 import problem135 from './problem135';
 import problem043 from './problem043';
-import problem044 from './problem044';
-import problem045 from './problem045';
+import problem205 from './problem205';
+import problem206 from './problem206';
 import problem046 from './problem046';
 import problem047 from './problem047';
 import problem048 from './problem048';
 import problem168 from './problem168';
-import problem050 from './problem050';
+import problem209 from './problem209';
 import problem082 from './problem082';
 import problem083 from './problem083';
 import problem084 from './problem084';
@@ -25,20 +25,20 @@ import problem085 from './problem085';
 import problem086 from './problem086';
 import problem091 from './problem091';
 import problem092 from './problem092';
-import problem016 from './problem016';
+import problem196 from './problem196';
 import problem166 from './problem166';
 import problem169 from './problem169';
 import problem167 from './problem167';
 import problem136 from './problem136';
 import problem137 from './problem137';
 import problem138 from './problem138';
-import problem056 from './problem056';
+import problem212 from './problem212';
 import problem174 from './problem174';
 import problem175 from './problem175';
 import problem176 from './problem176';
 import problem177 from './problem177';
-import problem023 from './problem023';
-import problem154 from './problem154';
+import problem199 from './problem199';
+import problem218 from './problem218';
 import problem178 from './problem178';
 import problem179 from './problem179';
 
@@ -47,8 +47,8 @@ import problem179 from './problem179';
 export const problemSet05: Problem[] = [
   // リストの単語をスペースで結合した結果を予想 (predict-output)
   problem043,
-  // -7の絶対値を予想 (predict-output)
-  problem044,
+  // -7の絶対値を予想(コピー) (predict-output)
+  problem205,
   // リストに2が何個含まれているか予想 (predict-output)
   problem047,
   // 文字列に「World」が含まれているか確認、結果を予想 (predict-output)
@@ -56,10 +56,10 @@ export const problemSet05: Problem[] = [
 
   // リスト内包表記で二乗のリスト(変数名sq版)、出力予想 (predict-output)
   problem168,
-  // リストの中で一番小さい数を予想 (predict-output)
-  problem050,
-  // sum()でリストの合計、出力予想 (predict-output)
-  problem025,
+  // リストの中で一番小さい数を予想(コピー) (predict-output)
+  problem209,
+  // sum()でリストの合計、出力予想(コピー) (predict-output)
+  problem202,
 
   // stripで前後の空白を取り除く、出力予想 (predict-output)
   problem040,
@@ -68,16 +68,16 @@ export const problemSet05: Problem[] = [
   // 前後の空白を取り除くメソッドを穴埋め (fill-in)
   problem130,
 
-  // range(n)は0からn-1までの数字、出力予想 (predict-output)
-  problem015,
+  // range(n)は0からn-1までの数字、出力予想(コピー) (predict-output)
+  problem195,
   // 1から5まで順に表示するプログラムを書く (fill-in)
   problem091,
 
   // range(1,10,2)の出力予想(変数名n版) (predict-output)
   problem167,
 
-  // forループで1〜3の合計を求める、結果予想 (predict-output)
-  problem016,
+  // forループで1〜3の合計を求める、結果予想(コピー) (predict-output)
+  problem196,
   // forループでi*10を表示、出力予想 (predict-output)
   problem166,
   // 2から4の二乗の合計を計算、穴埋め (fill-in)
@@ -90,15 +90,15 @@ export const problemSet05: Problem[] = [
   // 5,7,9と表示するプログラムを完成 (fill-in)
   problem138,
 
-  // range(1,11)の合計、出力予想 (predict-output)
-  problem045,
-  // リストの合計が15になるよう数字を穴埋め (fill-in)
-  problem056,
+  // range(1,11)の合計、出力予想(コピー) (predict-output)
+  problem206,
+  // リストの合計が15になるよう数字を穴埋め(コピー) (fill-in)
+  problem212,
 
-  // forループ内のifで偶数だけ表示、出力予想 (predict-output)
-  problem023,
-  // 出力が1,3になるようif文の条件を穴埋め (fill-in)
-  problem154,
+  // forループ内のifで偶数だけ表示、出力予想(コピー) (predict-output)
+  problem199,
+  // 出力が1,3になるようif文の条件を穴埋め(コピー) (fill-in)
+  problem218,
   // 2から10までの偶数を表示するプログラムを書く (fill-in)
   problem092,
 

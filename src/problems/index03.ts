@@ -1,7 +1,7 @@
 import type { Problem } from './types';
-import problem005 from './problem005';
+import problem191 from './problem191';
 import problem013 from './problem013';
-import problem015 from './problem015';
+import problem194 from './problem194';
 import problem057 from './problem057';
 import problem022 from './problem022';
 import problem107 from './problem107';
@@ -9,8 +9,8 @@ import problem108 from './problem108';
 import problem109 from './problem109';
 import problem110 from './problem110';
 import problem023 from './problem023';
-import problem024 from './problem024';
-import problem025 from './problem025';
+import problem200 from './problem200';
+import problem201 from './problem201';
 import problem026 from './problem026';
 import problem017 from './problem017';
 import problem104 from './problem104';
@@ -21,10 +21,10 @@ import problem112 from './problem112';
 import problem113 from './problem113';
 import problem114 from './problem114';
 import problem029 from './problem029';
-import problem059 from './problem059';
-import problem060 from './problem060';
-import problem062 from './problem062';
-import problem063 from './problem063';
+import problem213 from './problem213';
+import problem214 from './problem214';
+import problem215 from './problem215';
+import problem216 from './problem216';
 import problem069 from './problem069';
 import problem070 from './problem070';
 import problem071 from './problem071';
@@ -39,12 +39,12 @@ import problem019 from './problem019';
 
 // セット3（初中級：ループ応用・リスト）
 export const problemSet03: Problem[] = [
-  // a+bの出力を予想 (predict-output)
-  problem005,
+  // a+bの出力を予想(コピー) (predict-output)
+  problem191,
   // if/elseの基本、出力予想 (predict-output)
   problem013,
-  // range(n)は0からn-1までの数字、出力予想 (predict-output)
-  problem015,
+  // range(n)は0からn-1までの数字、出力予想(コピー) (predict-output)
+  problem194,
   // 0から4まで順に表示するプログラムを完成 (fill-in)
   problem057,
   // 成績判定(elif連鎖)の結果を予想 (predict-output)
@@ -59,10 +59,10 @@ export const problemSet03: Problem[] = [
   problem110,
   // forループ内のifで偶数だけ表示、出力予想 (predict-output)
   problem023,
-  // maxでリストの中で一番大きい数を返す、出力予想 (predict-output)
-  problem024,
-  // sum()でリストの合計、出力予想 (predict-output)
-  problem025,
+  // maxでリストの中で一番大きい数を返す、出力予想(コピー) (predict-output)
+  problem200,
+  // sum()でリストの合計、出力予想(コピー) (predict-output)
+  problem201,
   // リストの2番目の要素を予想 (predict-output)
   problem017,
   // リストの最初の要素を表示するプログラムを完成 (fill-in)
@@ -81,14 +81,14 @@ export const problemSet03: Problem[] = [
   problem114,
   // a**2 + b**2の結果を予想 (predict-output)
   problem029,
-  // リストの最大値を求めて表示するプログラムを完成 (fill-in)
-  problem059,
-  // リストの最小値を求めて表示するプログラムを完成 (fill-in)
-  problem060,
-  // リストの合計を求めて表示するプログラムを完成 (fill-in)
-  problem062,
-  // 文字列の長さを求めて表示するプログラムを完成 (fill-in)
-  problem063,
+  // リストの最大値を求めて表示するプログラムを完成(コピー) (fill-in)
+  problem213,
+  // リストの最小値を求めて表示するプログラムを完成(コピー) (fill-in)
+  problem214,
+  // リストの合計を求めて表示するプログラムを完成(コピー) (fill-in)
+  problem215,
+  // 文字列の長さを求めて表示するプログラムを完成(コピー) (fill-in)
+  problem216,
   // forループで1〜3の合計を求める、結果予想 (predict-output)
   problem016,
   // 1から5の合計を求めるプログラムを完成 (fill-in)
