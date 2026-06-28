@@ -2,11 +2,9 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 89,
-  title: "リストの合計を返す関数 sum_list を完成させてください",
+  title: "リストの合計を求める関数を作成してください",
   type: 'fill-in',
-  codeWithMarker: `# リストの合計を返す関数 sum_list を完成させてください
-# 例: sum_list([1,2,3]) → 6、sum_list([10,20,30]) → 60、sum_list([]) → 0
-def sum_list(nums):
+  codeWithMarker: `def sum_list(nums):
     §§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§
 
 print(sum_list([1, 2, 3]))

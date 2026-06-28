@@ -39,6 +39,10 @@ import problem187 from './problem187';
 import problem188 from './problem188';
 import problem189 from './problem189';
 import problem207 from './problem207';
+import problem219 from './problem219';
+import problem220 from './problem220';
+import problem221 from './problem221';
+import problem222 from './problem222';
 
 // セット6（上級：全文作成・応用関数）
 export const problemSet06: Problem[] = [
@@ -93,21 +97,28 @@ export const problemSet06: Problem[] = [
   // 合計が10を超えるまで足し続けるプログラムを完成 (fill-in)
   problem078,
 
+  // リスト内包表記で二乗のリスト、出力予想(コピー) (predict-output)
+  problem208,
+
+  // リストの中で一番小さい数を予想(負の数版) (predict-output)
+  problem171,
+  
+  
   // ネストしたループ＋if(i!=j版)で表示される数を予想 (predict-output)
   problem170,
   // ネストしたループ＋ifで表示される数を予想(コピー) (predict-output)
   problem207,
-  // リスト内包表記で二乗のリスト、出力予想(コピー) (predict-output)
-  problem208,
-  // リストの中で一番小さい数を予想(負の数版) (predict-output)
-  problem171,
+  
+  // 0から5まで表示 (fill-in)
+  problem088,
+
   // celsius_to_fahrenheit(c) — 摂氏を華氏に変換する関数を完成 (fill-in)
   problem087,
-  // repeat_str(s,n) — 文字列をn回繰り返す関数を完成 (fill-in)
-  problem088,
   // sum_list(nums) — リストの合計を返す関数を完成 (fill-in)
   problem089,
-  // count_positive(nums) — リスト内の正の数の個数を返す関数を完成 (fill-in)
+  
+  
+  // リスト内の正の数の個数を返す (fill-in)
   problem090,
   // 1から10の合計を求めて表示するプログラムを書く (fill-in)
   problem093,
@@ -123,6 +134,18 @@ export const problemSet06: Problem[] = [
   problem098,
   // reverse_string(s) — 文字列を逆順にする関数を作る (fill-in)
   problem099,
+  
+  
+  
+  // andで両方の条件を確認、出力予想 (predict-output)
+  problem219,
+  // orでどちらか一方の条件を確認、出力予想 (predict-output)
+  problem220,
+  // notで条件を反転、出力予想 (predict-output)
+  problem221,
+  // n%2==0 and n>0でTrueになるよう演算子を穴埋め (fill-in)
+  problem222,
+  
   // fizzbuzz(n) — FizzBuzzを判定する関数を作る (fill-in)
   problem100,
 

@@ -2,19 +2,18 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 99,
-  title: "文字列を逆順にする関数 reverse_string を作ってください",
+  title: "数字が偶数なら「even」、奇数なら「odd」という文字を返す関数を作成してください",
   type: 'fill-in',
-  codeWithMarker: `# 文字列を逆順にして返す関数 reverse_string を作ってください
-# 例: reverse_string("hello") → "olleh"、reverse_string("abc") → "cba"
-
+  codeWithMarker: `# defから書き始めてください
 §§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§
 
-print(reverse_string("hello"))
-print(reverse_string("abc"))
-print(reverse_string("a"))
+print(to_string(3))
+print(to_string(0))
+print(to_string(-1))
+print(to_string(-2))
 `,
-  correctOutput: "olleh\ncba\na",
-  requiredTokens: ['def', 'reverse_string', 'return'],
+  correctOutput: "odd\neven\nodd\neven",
+  requiredTokens: ['def', 'to_string', 'return'],
 };
 
 export default problem;
