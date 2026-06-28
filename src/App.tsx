@@ -5,6 +5,7 @@ import type { Problem } from './problems';
 // ↓ この1行を変えると完了演出が切り替わります
 import { CompletionScreen } from './CompletionScreenC';
 import { onAnswerResult, onSessionStart, type ProblemStatus } from './sessionHandlers';
+import { initPyodideWorker, runPython } from './pyodideWorkerClient';
 import { problemSet00 } from './problems/index00';
 import { problemSet01 } from './problems/index01';
 import { problemSet02 } from './problems/index02';
@@ -12,7 +13,6 @@ import { problemSet03 } from './problems/index03';
 import { problemSet04 } from './problems/index04';
 import { problemSet05 } from './problems/index05';
 import { problemSet06 } from './problems/index06';
-import type { PyodideInterface } from 'pyodide';
 
 // ─── 問題セット定義 ────────────────────────────────────────────
 const ALL_SETS = [
@@ -119,17 +119,6 @@ function loadStudentData(): StudentData | null {
 }
 function saveStudentData(d: StudentData): void {
   try { localStorage.setItem(STUDENT_KEY, JSON.stringify(d)); } catch { }
-}
-
-// ─── Pyodide ─────────────────────────────────────────────────
-let pyodideInstance: PyodideInterface | null = null;
-async function getPyodide(): Promise<PyodideInterface> {
-  if (pyodideInstance) return pyodideInstance;
-  // @ts-ignore
-  pyodideInstance = await window.loadPyodide({
-    indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.27.0/full/',
-  }) as PyodideInterface;
-  return pyodideInstance;
 }
 
 // ─── 穴の内容を取り出す ────────────────────────────────────────
@@ -430,10 +419,10 @@ export default function App() {
     return () => { view.destroy(); viewRef.current = null; };
   }, [setIndex, currentIndex, hintsEnabled, studentData]);
 
-  // ─── Pyodide 事前ロード ───────────────────────────────────
+  // ─── Pyodide 事前ロード（Web Worker 内で実行）─────────────
   useEffect(() => {
     setPyStatus('loading');
-    getPyodide().then(() => setPyStatus('ready'));
+    initPyodideWorker().then(() => setPyStatus('ready'));
   }, []);
 
   // ─── タブを閉じる / リロード前に保存 ──────────────────────
@@ -477,13 +466,7 @@ export default function App() {
     setPyStatus('running');
     try {
       const code = viewRef.current.state.doc.toString();
-      const py = await getPyodide();
-      py.globals.set('_output_lines', py.toPy([]));
-      await py.runPythonAsync(`import sys, io\n_buf = io.StringIO()\nsys.stdout = _buf`);
-      await py.runPythonAsync(code);
-      const captured = await py.runPythonAsync(
-        `sys.stdout = sys.__stdout__\n_buf.getvalue().strip()`
-      ) as string;
+      const captured = await runPython(code);
       setOutput(captured);
       let correct = captured === problem.correctOutput.trim();
       // 出力が合っていても必須トークンが不足していれば不正解
@@ -503,13 +486,21 @@ export default function App() {
       saveRecord(problem.id, rec);
       onAnswerResult(URL_SET_NUMBER, currentIndex + 1, problem.id, correct, buildProblemStatuses(currentSet), studentData?.studentId ?? '', studentData?.studentName ?? '');
       if (correct) triggerScore();
+      setPyStatus('ready');
     } catch (e) {
-      // Traceback を除いて最後のエラー行だけ表示
       const msg = (e as Error).message ?? String(e);
+      if (msg === 'TIMEOUT') {
+        // 無限ループ等でタイムアウト → ワーカーを再起動して再度準備が整うまで待つ
+        setOutput('エラー: 実行に時間がかかりすぎました（無限ループの可能性があります）。もう一度お試しください。');
+        setIsCorrect(false);
+        setPyStatus('loading');
+        initPyodideWorker().then(() => setPyStatus('ready'));
+        return;
+      }
+      // Traceback を除いて最後のエラー行だけ表示
       const lastLine = msg.split('\n').filter(l => l.trim()).pop() ?? msg;
       setOutput(`エラー: ${lastLine}`);
       setIsCorrect(false);
-    } finally {
       setPyStatus('ready');
     }
   }, [problem, predictInput, pyStatus, triggerScore]);

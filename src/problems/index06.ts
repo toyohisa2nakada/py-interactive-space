@@ -94,6 +94,7 @@ export const problemSet06: Problem[] = [
 
   // ネストしたループ＋if(i!=j版)で表示される数を予想 (predict-output)
   problem170,
+  
   // リスト内包表記で二乗のリスト、出力予想 (predict-output)
   problem049,
   // リストの中で一番小さい数を予想(負の数版) (predict-output)
