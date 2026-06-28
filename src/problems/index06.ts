@@ -1,7 +1,5 @@
 import type { Problem } from './types';
-import problem003 from './problem003';
 import problem013 from './problem013';
-import problem051 from './problem051';
 import problem075 from './problem075';
 import problem078 from './problem078';
 import problem049 from './problem049';
@@ -30,6 +28,16 @@ import problem144 from './problem144';
 import problem145 from './problem145';
 import problem146 from './problem146';
 import problem147 from './problem147';
+import problem180 from './problem180';
+import problem181 from './problem181';
+import problem182 from './problem182';
+import problem183 from './problem183';
+import problem184 from './problem184';
+import problem185 from './problem185';
+import problem186 from './problem186';
+import problem187 from './problem187';
+import problem188 from './problem188';
+import problem189 from './problem189';
 
 // セット6（上級：全文作成・応用関数）
 export const problemSet06: Problem[] = [
@@ -55,16 +63,35 @@ export const problemSet06: Problem[] = [
   problem147,
 
 
-  // 変数xに代入された値を予想 (predict-output)
-  problem003,
   // if/elseの基本、出力予想 (predict-output)
   problem013,
-  // xに10を代入して表示するプログラムを完成 (fill-in)
-  problem051,
+  // if が2つ、1つだけ当てはまる、出力予想 (predict-output)
+  problem180,
+  // if が2つ、両方当てはまる、出力予想 (predict-output)
+  problem181,
+  // if/elseでifに当てはまる、出力予想 (predict-output)
+  problem182,
+  // if/elifどちらも当てはまらない、if後の単独printのみ出力、出力予想 (predict-output)
+  problem183,
+  // if/elif/elif/elseで2個目のelifに当てはまる、出力予想 (predict-output)
+  problem184,
+  // ifの入れ子(1段)、出力予想 (predict-output)
+  problem185,
+  // ifの入れ子(2段)、出力予想 (predict-output)
+  problem186,
+  // ifの入れ子+外側にelse(x=-1版)、出力予想 (predict-output)
+  problem188,
+  // ifの入れ子の中にif/elif/else、出力予想 (predict-output)
+  problem187,
   // 正・ゼロ・負を判定して返す関数を完成(elif穴埋め) (fill-in)
   problem075,
+
+
+  // 1から5まで表示するwhileループを完成 (fill-in)
+  problem189,
   // 合計が10を超えるまで足し続けるプログラムを完成 (fill-in)
   problem078,
+
   // ネストしたループ＋if(i!=j版)で表示される数を予想 (predict-output)
   problem170,
   // リスト内包表記で二乗のリスト、出力予想 (predict-output)

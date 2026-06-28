@@ -2,7 +2,7 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 75,
-  title: "正・ゼロ・負を判定して返す関数を完成させてください",
+  title: "正・ゼロ・負を判定して返す関数を完成させてください。字下げ(インデント)に注意してみてください",
   type: 'fill-in',
   codeWithMarker: `def check_sign(x):
     if x < 0:
