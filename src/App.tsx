@@ -30,6 +30,7 @@ const SLUG_TO_INDEX: Record<string, number> = {
   'k5t9bq': 4, // セット4
   'm2y7gl': 5, // セット5
   'x4c8sd': 6, // セット6
+  'x7wo7a': 7, // セット7
 };
 
 const SET_LABELS = ['セット0', 'セット1', 'セット2', 'セット3', 'セット4', 'セット5', 'セット6'];
