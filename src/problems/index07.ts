@@ -45,7 +45,7 @@ import problem221 from './problem221';
 import problem222 from './problem222';
 
 // セット6（上級：全文作成・応用関数）
-export const problemSet06: Problem[] = [
+export const problemSet07: Problem[] = [
   // 辞書からnameの値を取り出した結果を予想 (predict-output)
   problem042,
   // 辞書からageの値を取り出した結果を予想 (predict-output)

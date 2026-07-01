@@ -13,12 +13,13 @@ import { problemSet03 } from './problems/index03';
 import { problemSet04 } from './problems/index04';
 import { problemSet05 } from './problems/index05';
 import { problemSet06 } from './problems/index06';
+import { problemSet07 } from './problems/index07';
 
 // ─── 問題セット定義 ────────────────────────────────────────────
 const ALL_SETS = [
   problemSet00,
   problemSet01, problemSet02, problemSet03,
-  problemSet04, problemSet05, problemSet06,
+  problemSet04, problemSet05, problemSet06, problemSet07,
 ];
 // 公開済みのセットだけここに書く。値は連想配列のキー(=URLのslug)→ALL_SETSの添字
 // slugはランダムな文字列なので、AのURLからBのURLは推測できない
@@ -33,7 +34,7 @@ const SLUG_TO_INDEX: Record<string, number> = {
   'x7wo7a': 7, // セット7
 };
 
-const SET_LABELS = ['セット0', 'セット1', 'セット2', 'セット3', 'セット4', 'セット5', 'セット6'];
+const SET_LABELS = ['セット0', 'セット1', 'セット2', 'セット3', 'セット4', 'セット5', 'セット6', 'セット7'];
 const SET_DESCRIPTIONS = [
   'テストセット',
   '超入門：変数・演算',
@@ -41,7 +42,8 @@ const SET_DESCRIPTIONS = [
   '初中級：ループ・リスト',
   '中級：文字列・関数',
   '中上級：関数・多テスト',
-  '上級：全文作成・応用',
+  '上級：全文作成・応用1',
+  '上級：全文作成・応用2',
 ];
 
 /** ?set=slug を ALL_SETS の添字に変換する。SLUG_TO_INDEX に登録済みのものしか許可しない */
