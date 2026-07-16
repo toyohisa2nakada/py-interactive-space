@@ -2,7 +2,7 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 171,
-  title: "リストの中で一番小さい数を予想してください",
+  title: "minは最小値を出力します。プログラムの実行結果を予測してください",
   type: 'predict-output',
   code: `nums = [-1, -3, -2, -8, -4]
 print(min(nums))

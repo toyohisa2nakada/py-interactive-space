@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
-import { EditorView, Decoration, type DecorationSet, hoverTooltip } from '@codemirror/view';
-import { EditorState, StateField } from '@codemirror/state';
+import { EditorView, Decoration, type DecorationSet, hoverTooltip, keymap } from '@codemirror/view';
+import { EditorState, StateField, Prec, type Extension } from '@codemirror/state';
 import type { Problem } from './problems';
 // ↓ この1行を変えると完了演出が切り替わります
 import { CompletionScreen } from './CompletionScreenC';
@@ -209,7 +209,7 @@ function buildPyTooltip(view: EditorView, pos: number) {
 }
 
 // ─── CodeMirror エディタ構築 ───────────────────────────────────
-function buildEditorState(problem: Problem, savedAnswer?: string, hintsEnabled = false): EditorState {
+function buildEditorState(problem: Problem, savedAnswer?: string, hintsEnabled = false, extra: Extension[] = []): EditorState {
   const baseExtensions = [
     EditorView.theme({
       '&': { fontSize: '15px' },
@@ -300,7 +300,9 @@ function buildEditorState(problem: Problem, savedAnswer?: string, hintsEnabled =
 
   return EditorState.create({
     doc,
-    extensions: [...baseExtensions, rangeField, lockFilter, highlightExtension],
+    // フォーカス直後にそのまま入力できるよう、カーソルを穴の先頭に置いておく
+    selection: { anchor: holeFrom },
+    extensions: [...baseExtensions, rangeField, lockFilter, highlightExtension, ...extra],
   });
 }
 
@@ -337,6 +339,10 @@ export default function App() {
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const viewRef = useRef<EditorView | null>(null);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  // Shift+Enter で実行する処理。CodeMirror の extension はエディタ再構築時にしか
+  // 作り直されないため、ref 経由で常に最新の state を参照させる
+  const shiftEnterRef = useRef<() => void>(() => { });
 
   const currentSet = ALL_SETS[setIndex];
   const problem = currentSet[currentIndex];
@@ -410,7 +416,12 @@ export default function App() {
 
     const rec = loadRecord(problem.id);
     const savedAnswer = rec.lastAnswer.length > 0 ? rec.lastAnswer : undefined;
-    const state = buildEditorState(problem, savedAnswer, hintsEnabled);
+    const state = buildEditorState(problem, savedAnswer, hintsEnabled, [
+      Prec.highest(keymap.of([{
+        key: 'Shift-Enter',
+        run: () => { shiftEnterRef.current(); return true; },
+      }])),
+    ]);
     const view = new EditorView({ state, parent: containerRef.current });
     viewRef.current = view;
 
@@ -418,6 +429,10 @@ export default function App() {
     setOutput(null);
     // predict-output は前回の入力を復元
     setPredictInput(problem.type === 'predict-output' ? rec.lastAnswer : '');
+
+    // キーボード操作を途切れさせない: fill-in はエディタ、predict-output は textarea へ
+    if (problem.type === 'fill-in') view.focus();
+    else textareaRef.current?.focus();
 
     return () => { view.destroy(); viewRef.current = null; };
   }, [setIndex, currentIndex, hintsEnabled, studentData]);
@@ -507,6 +522,18 @@ export default function App() {
       setPyStatus('ready');
     }
   }, [problem, predictInput, pyStatus, triggerScore]);
+
+  // ─── Shift+Enter: いまボタンに表示されている操作を実行 ──────
+  useEffect(() => {
+    shiftEnterRef.current = () => {
+      if (isCorrect === true) {
+        if (currentIndex === currentSet.length - 1) setShowCompletion(true);
+        else navigateTo(currentIndex + 1);
+      } else if (pyStatus !== 'loading' && pyStatus !== 'running') {
+        checkAnswer();
+      }
+    };
+  });
 
   // 配列の要素を1つランダムに選ぶ
   const CATS = ["🐱", "😸", "😹", "😼", "😽", "😾", "😿", "🙀"];
@@ -750,8 +777,10 @@ export default function App() {
                 </span>
                 <span className="text-[10px] text-slate-400">問題 No.{problem.id}</span>
               </div>
-              <h1 className="text-base font-bold text-slate-800 leading-snug">
-                {problem.title}
+              <h1 className="text-base font-bold text-slate-800 leading-snug"
+                dangerouslySetInnerHTML={{ __html: problem.title }}
+              >
+                {/* {problem.title} */}
               </h1>
             </div>
 
@@ -774,11 +803,18 @@ export default function App() {
               {problem.type === 'predict-output' && (
                 <div className="flex-shrink-0 space-y-1.5">
                   <label className="text-sm font-semibold text-slate-600">
-                    出力の予想を入力してください：
+                    出力の予想を入力してください：(Shift+Enterでも 答え合わせ できます)
                   </label>
                   <textarea
+                    ref={textareaRef}
                     value={predictInput}
                     onChange={e => setPredictInput(e.target.value)}
+                    onKeyDown={e => {
+                      if (e.key === 'Enter' && e.shiftKey) {
+                        e.preventDefault();
+                        shiftEnterRef.current();
+                      }
+                    }}
                     rows={4}
                     className="w-full border border-slate-300 rounded-xl px-4 py-3 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white shadow-sm resize-none"
                     placeholder="例: 42"

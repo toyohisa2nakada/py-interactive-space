@@ -2,7 +2,7 @@ import type { Problem } from './types';
 
 const problem: Problem = {
   id: 100,
-  title: "FizzBuzz を判定する関数 fizzbuzz を作ってください。3の倍数→\"Fizz\"、5の倍数→\"Buzz\"、両方の倍数→\"FizzBuzz\"、それ以外→数字の文字列。例: fizzbuzz(3) → \"Fizz\"、fizzbuzz(5) → \"Buzz\"、fizzbuzz(15) → \"FizzBuzz\"、fizzbuzz(7) → \"7\"",
+  title: "FizzBuzz を判定する関数 fizzbuzz を作ってください。<br>3の倍数→\"Fizz\"、5の倍数→\"Buzz\"、両方の倍数→\"FizzBuzz\"、それ以外→その数字。<br>例: fizzbuzz(3)→\"Fizz\"、fizzbuzz(5)→\"Buzz\"、fizzbuzz(15)→\"FizzBuzz\"、fizzbuzz(7)→\"7\"",
   type: 'fill-in',
   codeWithMarker: `# defから書き始めてください
 # if elif % and等を使用します
